@@ -78,6 +78,7 @@ def run_inference(
     load_in_8bit: bool = True,
     limit: Optional[int] = None,
     resume: bool = True,
+    sub_batch_size: Optional[int] = None,
 ):
     """
     Generate `n_samples` patches per bug from `eval_jsonl` and append each result
@@ -140,24 +141,49 @@ def run_inference(
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
             input_len = inputs["input_ids"].shape[1]
 
-            # Batched sampling: prefill the prompt once, then decode n_samples
-            # trajectories from a shared KV cache. On T4 8-bit this is ~5-8x
-            # faster than calling generate() n_samples times (which re-runs
-            # prefill each time).
+            # Batched sampling: prefill the prompt once, then decode several
+            # trajectories from a shared KV cache. Much faster than calling
+            # generate() n_samples times.
+            #
+            # `sub_batch_size` caps the parallel decode width to keep KV cache
+            # + attention scores within VRAM. KV cache scales as
+            # batch * seq_len, and SDPA scores scale as batch * seq_len^2 —
+            # so on long-input datasets (e.g. BugsInPy) we must split.
+            #   - QuixBugs (short inputs ~50 tok): sub_batch_size=10 fits.
+            #   - BugsInPy (~500-1000 tok inputs): use sub_batch_size=2.
+            # Default = n_samples (single big batch, original behavior).
+            sb = sub_batch_size if sub_batch_size is not None else n_samples
+            sb = max(1, min(sb, n_samples))
+
+            generations = []
+            remaining = n_samples
             with torch.no_grad():
-                out = model.generate(
-                    **inputs,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=True,
-                    temperature=temperature,
-                    top_p=top_p,
-                    num_return_sequences=n_samples,
-                    pad_token_id=tokenizer.eos_token_id,
-                )
-            generations = [
-                tokenizer.decode(out[i, input_len:], skip_special_tokens=True)
-                for i in range(n_samples)
-            ]
+                while remaining > 0:
+                    bs = min(sb, remaining)
+                    try:
+                        out = model.generate(
+                            **inputs,
+                            max_new_tokens=max_new_tokens,
+                            do_sample=True,
+                            temperature=temperature,
+                            top_p=top_p,
+                            num_return_sequences=bs,
+                            pad_token_id=tokenizer.eos_token_id,
+                        )
+                    except torch.cuda.OutOfMemoryError:
+                        # Self-heal on a too-aggressive sub-batch: halve and retry.
+                        torch.cuda.empty_cache()
+                        if bs == 1:
+                            raise  # already at the floor
+                        sb = max(1, bs // 2)
+                        print(f"[inference] OOM at sub_batch={bs}, retrying at {sb}")
+                        continue
+                    for i in range(bs):
+                        generations.append(
+                            tokenizer.decode(out[i, input_len:], skip_special_tokens=True)
+                        )
+                    remaining -= bs
+                    del out
 
             # --- Previous per-sample loop (slow, kept for reference) ---
             # generations = []
@@ -203,6 +229,10 @@ def main():
     ap.add_argument("--top-p", type=float, default=0.95)
     ap.add_argument("--no-8bit", action="store_true")
     ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--sub-batch-size", type=int, default=None,
+                    help="Parallel decode width (default = n_samples). "
+                         "Lower this on long-input datasets to avoid VRAM OOM. "
+                         "BugsInPy on T4 8-bit: try 2.")
     args = ap.parse_args()
 
     run_inference(
@@ -215,6 +245,7 @@ def main():
         top_p=args.top_p,
         load_in_8bit=not args.no_8bit,
         limit=args.limit,
+        sub_batch_size=args.sub_batch_size,
     )
 
 
