@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+*.log
+
+# Large artifacts (keep small JSONL inputs, ignore generations)
+results/*.jsonl
+results/*.json
+!results/.gitkeep
+
+# HF cache
+.cache/
+huggingface_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
