@@ -1,0 +1,39 @@
+# Bugs dropped during verification: 35 / 196
+# Reason 'or2_mismatch' = gold OR2 in eval JSONL doesn't reconstruct
+# the actual fixed file. Pre-existing bug in upstream filter_bugsinpy.py.
+#
+or2_mismatch	ansible/7
+or2_mismatch	black/16
+or2_mismatch	black/7
+or2_mismatch	fastapi/13
+or2_mismatch	fastapi/3
+or2_mismatch	fastapi/9
+or2_mismatch	httpie/5
+or2_mismatch	keras/40
+or2_mismatch	matplotlib/11
+or2_mismatch	pandas/102
+or2_mismatch	pandas/119
+or2_mismatch	pandas/133
+or2_mismatch	pandas/162
+or2_mismatch	pandas/19
+or2_mismatch	pandas/29
+or2_mismatch	pandas/34
+or2_mismatch	pandas/38
+or2_mismatch	pandas/60
+or2_mismatch	pandas/72
+or2_mismatch	pandas/77
+or2_mismatch	pandas/8
+or2_mismatch	pandas/95
+or2_mismatch	scrapy/1
+or2_mismatch	scrapy/15
+or2_mismatch	scrapy/22
+or2_mismatch	scrapy/36
+or2_mismatch	spacy/6
+or2_mismatch	thefuck/10
+or2_mismatch	thefuck/11
+or2_mismatch	tornado/5
+or2_mismatch	youtube-dl/21
+or2_mismatch	youtube-dl/22
+or2_mismatch	youtube-dl/23
+or2_mismatch	youtube-dl/24
+or2_mismatch	youtube-dl/5

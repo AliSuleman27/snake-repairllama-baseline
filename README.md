@@ -13,7 +13,8 @@ Both are converted to the **same IR4 (input) / OR2 (output) JSONL schema** so a 
 | File | Bugs | Source | Notes |
 |---|---|---|---|
 | `data/quixbugs_eval.jsonl` | 40 | [`Muennighoff/quixbugs`](https://huggingface.co/datasets/Muennighoff/quixbugs) | Single-function algorithmic bugs. 4 are pure-insertion → anchored on preceding context line. |
-| `data/bugsinpy_eval.jsonl` | 196 | BugsInPy, filtered to single-function intra-procedural bugs | Re-used from the prior eval run for direct comparability. |
+| `data/bugsinpy_eval.jsonl` | 196 | BugsInPy, filtered to single-function intra-procedural bugs | Original set from prior run. **35 rows have corrupted gold OR2** — see verified file below. |
+| `data/bugsinpy_eval_verified.jsonl` | 161 | Subset of the above where gold OR2 round-trips against the actual fixed-commit file | **Use this for plausibility evaluation.** Verified by `src/build_verified_eval.py` against locally-cloned BugsInPy repos. Dropped-bug list lives in `data/bugsinpy_eval_verified.dropped.txt`. |
 
 ### Schema (per row)
 
@@ -33,6 +34,26 @@ Both are converted to the **same IR4 (input) / OR2 (output) JSONL schema** so a 
 
 ```bash
 python src/build_quixbugs_eval.py --output data/quixbugs_eval.jsonl
+```
+
+### Why a "verified" BugsInPy file exists
+
+The original `filter_bugsinpy.py` (in the other repo, used to build `bugsinpy_eval.jsonl`) has bugs in its `build_ir4_or2` reconstruction:
+
+1. **Multi-hunk diffs**: kept-context lines BETWEEN hunks are dropped from gold OR2 (e.g. `keras/40` loses an `else:` line)
+2. **Single-hunk diffs with complex `+`/`-` interleaving**: kept-context lines INSIDE the hunk can also be dropped (e.g. `ansible/7`)
+
+35/196 (17.9%) of rows have this problem — they would mark **any model** as failing plausibility even with a perfect prediction. `src/build_verified_eval.py` round-trips each row against the actual fixed-commit file and emits only the rows where `splice(reconstruct(IR4, gold), buggy_file) == fixed_file`. Run it yourself to regenerate:
+
+```bash
+python -m src.build_verified_eval --repos-dir D:/BugsInPy/repos
+```
+
+To audit individual rows of either file against ground truth:
+
+```bash
+python -m src.verify_pipeline --bug-id keras/40
+python -m src.verify_pipeline --all
 ```
 
 ## Running the baseline
