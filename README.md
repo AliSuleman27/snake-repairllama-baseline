@@ -37,11 +37,11 @@ python src/build_quixbugs_eval.py --output data/quixbugs_eval.jsonl
 
 ## Running the baseline
 
-**Use Colab Free (T4, 16 GB).** CodeLlama-7B fits in ~7 GB with 8-bit quantization.
+**Use Colab Free.** Three notebooks, run in order:
 
-1. Open `notebooks/01_baseline_codellama.ipynb` in Colab
-2. Add `HF_TOKEN` as a Colab Secret (CodeLlama is gated)
-3. Run cells top-to-bottom
+1. **`01_baseline_codellama.ipynb`** — T4 **GPU** runtime. Generates 10 patches/bug for both datasets. CodeLlama-7B fits in ~7 GB with 8-bit. Add `HF_TOKEN` Colab Secret (CodeLlama is gated). Save outputs to Drive when done.
+2. **`02_plausibility_quixbugs.ipynb`** — **CPU** runtime. Reads generations from Drive, runs inline assertions, writes plausibility JSONL. ~3 min total.
+3. **`03_plausibility_bugsinpy.ipynb`** — **CPU** runtime. Run `setup_bugsinpy.sh` once per session (~20 min), then test bugs in chunks via `START_BUG`/`END_BUG`. Save plausibility JSONL back to Drive between sessions.
 
 Inference protocol (matches the RepairLLaMA paper):
 - 10 candidate patches per bug
@@ -57,24 +57,66 @@ Per bug, we score each of the 10 patches on:
 - **ast** — `ast.dump()` of generation == `ast.dump()` of gold (catches reformatting)
 - **compile** — generation parses without `SyntaxError`
 - **buried** — gold appears as a substring inside the (lenient-extracted) generation. Flags "model knows the fix but can't isolate it cleanly."
+- **plausible** — patched program **passes the actual test suite**. This is the gold-standard repair metric — a patch is "plausible" if the project's tests accept it. Computed by separate notebooks (see below).
 
 Aggregated as **Top-1 / Top-3 / Top-10** (Top-K passes if any of the first K patches passes).
+
+## Plausibility testing (the gold-standard metric)
+
+Inference says "model produced text that matches gold". Plausibility says "the patched program actually works". The two notebooks below run the real tests:
+
+| Notebook | Dataset | Test mechanism | Time |
+|---|---|---|---|
+| `notebooks/02_plausibility_quixbugs.ipynb` | 40 algorithmic bugs | Inline `assert` cases, run in subprocess with timeout | ~3 min total (CPU only) |
+| `notebooks/03_plausibility_bugsinpy.ipynb` | 196 real-project bugs | BugsInPy framework: `bugsinpy-checkout` → splice patch → `bugsinpy-compile` → `bugsinpy-test`, with pyenv-managed Pythons | **~1-2 hrs per 25 bugs** (CPU only) |
+
+Both notebooks expose **`START_BUG`, `END_BUG` parameters** so you can chunk the work across multiple Colab sessions:
+
+```python
+START_BUG = 0    # i (inclusive)
+END_BUG   = 25   # j (exclusive). Resume-on-rerun is automatic.
+```
+
+For BugsInPy, run `scripts/setup_bugsinpy.sh` once per fresh Colab session — it installs pyenv + Python 3.6/3.7/3.8 and clones the BugsInPy framework (~15-25 min one-time).
+
+Output schema (`results/<dataset>_<model>_plausibility.jsonl`, one row per (bug, gen)):
+
+```json
+{
+  "bug_id": "quixbugs/bitcount",
+  "gen_idx": 0,
+  "compile_pass": true,
+  "test_pass":    true,
+  "test_status":  "pass",          // pass | fail | compile | timeout | error | checkout_failed | compile_failed
+  "stderr":       "..."            // truncated test output
+}
+```
+
+`evaluate_file(plausibility_jsonl=...)` ingests this and emits Top-K plausible alongside exact/AST/compile.
 
 ## Layout
 
 ```
 snake-repairllama-baseline/
-├── data/                              # IR4/OR2 eval sets (committed)
-│   ├── quixbugs_eval.jsonl            # 40 bugs
-│   └── bugsinpy_eval.jsonl            # 196 bugs
+├── data/                                   # IR4/OR2 eval sets (committed)
+│   ├── quixbugs_eval.jsonl                 # 40 bugs
+│   └── bugsinpy_eval.jsonl                 # 196 bugs
 ├── src/
-│   ├── build_quixbugs_eval.py         # HF dataset → IR4/OR2 JSONL
-│   ├── inference.py                   # generate N patches/bug, save JSONL
-│   ├── postprocess.py                 # extract OR2 from raw model output
-│   └── metrics.py                     # exact / ast / compile / buried
+│   ├── build_quixbugs_eval.py              # HF dataset → IR4/OR2 JSONL
+│   ├── inference.py                        # generate N patches/bug
+│   ├── patcher.py                          # splice generated patch back into source
+│   ├── postprocess.py                      # extract OR2 from raw model output
+│   ├── metrics.py                          # exact / ast / compile / buried / plausible
+│   └── runners/
+│       ├── quixbugs.py                     # inline-assertion plausibility runner
+│       └── bugsinpy.py                     # bugsinpy-framework plausibility runner
 ├── notebooks/
-│   └── 01_baseline_codellama.ipynb    # Colab T4 entry point
-├── results/                           # generations + scores (gitignored)
+│   ├── 01_baseline_codellama.ipynb         # T4 GPU: generate patches
+│   ├── 02_plausibility_quixbugs.ipynb      # CPU: run QuixBugs tests, slice with i,j
+│   └── 03_plausibility_bugsinpy.ipynb      # CPU: run BugsInPy tests, slice with i,j
+├── scripts/
+│   └── setup_bugsinpy.sh                   # one-time pyenv + framework setup for Colab
+├── results/                                # generations + plausibility (gitignored)
 └── requirements.txt
 ```
 

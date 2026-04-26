@@ -20,10 +20,16 @@ The same module also defines a strict-vs-lenient extraction policy:
 from __future__ import annotations
 
 import re
-from typing import List
+from typing import List, Optional
 
 
 _FENCE_RE = re.compile(r"```(?:python)?\s*\n?(.*?)```", re.DOTALL)
+
+# Top-level constructs that suggest the model started a NEW definition
+# (i.e. moved past the fix). Indent must be 0.
+_NEW_TOP_RE = re.compile(
+    r"^(def |class |import |from |@|if __name__)"
+)
 
 
 def _strip_fences(text: str) -> str:
@@ -33,80 +39,87 @@ def _strip_fences(text: str) -> str:
     return text
 
 
-def _take_until_blank(lines: List[str]) -> List[str]:
-    """Stop at the first fully blank line after a non-blank line."""
+def _strict_extract(text: str) -> str:
+    """
+    Take lines from `text` until one of these stop conditions:
+      - 2+ consecutive blank lines (signals "ran out of fix content")
+      - A column-0 line that begins a NEW top-level construct
+        (def/class/import/from/@/if __name__)
+      - End of text
+
+    This deliberately allows lines that dedent below the first line's indent —
+    real OR2 patches often include both deeper-indented inner-loop content and
+    shallower-indented sibling lines (e.g. shunting_yard, knapsack).
+    """
+    lines = text.splitlines(keepends=True)
     out: List[str] = []
-    seen_nonblank = False
+    blank_run = 0
+
     for ln in lines:
-        if ln.strip() == "":
-            if seen_nonblank:
+        is_blank = ln.strip() == ""
+        if is_blank:
+            blank_run += 1
+            if blank_run >= 2 and out:
                 break
-            else:
-                continue
-        seen_nonblank = True
-        out.append(ln)
-    return out
-
-
-def _take_indented_block(lines: List[str]) -> List[str]:
-    """
-    Keep lines that share the indentation of the first non-blank line, plus
-    any lines indented MORE deeply. Stop at the first line indented LESS.
-    Useful when the OR2 fix is a small indented block.
-    """
-    out: List[str] = []
-    base_indent = None
-    for ln in lines:
-        if ln.strip() == "":
-            if not out:
-                continue
             out.append(ln)
             continue
-        indent = len(ln) - len(ln.lstrip())
-        if base_indent is None:
-            base_indent = indent
-            out.append(ln)
-            continue
-        if indent < base_indent:
+        blank_run = 0
+
+        # New top-level construct after we already have content -> stop
+        if (
+            out
+            and not ln.startswith((" ", "\t"))
+            and _NEW_TOP_RE.match(ln)
+        ):
             break
+
         out.append(ln)
-    # trim trailing blanks
+
+    # Trim trailing blank lines
     while out and out[-1].strip() == "":
         out.pop()
-    return out
+    return "".join(out)
 
 
-def extract_patch(generation: str, mode: str = "strict") -> str:
+def extract_patch(
+    generation: str,
+    mode: str = "strict",
+    post_context_anchor: Optional[str] = None,
+) -> str:
     """
     Extract the predicted OR2 (the fix) from a raw model generation.
 
     mode='strict':
-        Conservative — first non-empty indented block, stop at dedent or blank.
-        This is what you compare to gold for exact_match / ast_match.
+        Conservative — stop at 2 blank lines or a new top-level construct.
+        Used for exact_match / ast_match scoring.
 
     mode='lenient':
-        Wider — entire fenced code block if present, else the first ~30 lines
-        of generation. Useful for "is the correct fix BURIED in the output?"
+        Wider — fenced code block if present, else first ~30 lines.
+        Used for "buried fix" detection.
+
+    post_context_anchor (optional):
+        A line that should appear immediately AFTER the patch. If provided,
+        we cut the generation at the first occurrence of this line. This is
+        the most reliable way to delimit the patch when the model echoes the
+        post-context after the fix.
     """
     text = generation
     text = _strip_fences(text)
-
-    # Drop a leading newline (common — model starts with \n after <FILL_ME>)
     text = text.lstrip("\n")
+
+    if post_context_anchor:
+        anchor = post_context_anchor.rstrip("\n")
+        if anchor.strip():
+            idx = text.find(anchor)
+            if idx >= 0:
+                text = text[:idx]
 
     lines = text.splitlines(keepends=True)
 
     if mode == "lenient":
-        # Just cap to ~30 lines, keep most of the output
         return "".join(lines[:30])
 
-    # strict
-    block = _take_indented_block(lines)
-    if block:
-        return "".join(block)
-    # fall back to take_until_blank
-    block = _take_until_blank(lines)
-    return "".join(block)
+    return _strict_extract(text)
 
 
 def normalize_for_match(s: str) -> str:
