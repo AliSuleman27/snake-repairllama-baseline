@@ -70,7 +70,7 @@ def _load_model_and_tokenizer(model_name: str, load_in_8bit: bool):
 def run_inference(
     eval_jsonl: str,
     output_jsonl: str,
-    model_name: str = "codellama/CodeLlama-7b-Python-hf",
+    model_name: str = "codellama/CodeLlama-7b-hf",
     n_samples: int = 10,
     max_new_tokens: int = 256,
     temperature: float = 1.0,
@@ -176,7 +176,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--eval-jsonl", required=True)
     ap.add_argument("--output-jsonl", required=True)
-    ap.add_argument("--model", default="codellama/CodeLlama-7b-Python-hf")
+    ap.add_argument("--model", default="codellama/CodeLlama-7b-hf")
     ap.add_argument("--n-samples", type=int, default=10)
     ap.add_argument("--max-new-tokens", type=int, default=256)
     ap.add_argument("--temperature", type=float, default=1.0)
