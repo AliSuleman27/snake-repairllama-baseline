@@ -1,0 +1,360 @@
+{
+  "target": 50,
+  "selected": [
+    {
+      "bug_id": "PySnooper/3",
+      "project": "PySnooper",
+      "idx": 0,
+      "tier": 2
+    },
+    {
+      "bug_id": "ansible/3",
+      "project": "ansible",
+      "idx": 1,
+      "tier": 2
+    },
+    {
+      "bug_id": "black/8",
+      "project": "black",
+      "idx": 5,
+      "tier": 2
+    },
+    {
+      "bug_id": "black/20",
+      "project": "black",
+      "idx": 8,
+      "tier": 2
+    },
+    {
+      "bug_id": "cookiecutter/1",
+      "project": "cookiecutter",
+      "idx": 10,
+      "tier": 2
+    },
+    {
+      "bug_id": "fastapi/5",
+      "project": "fastapi",
+      "idx": 13,
+      "tier": 2
+    },
+    {
+      "bug_id": "fastapi/16",
+      "project": "fastapi",
+      "idx": 17,
+      "tier": 2
+    },
+    {
+      "bug_id": "keras/6",
+      "project": "keras",
+      "idx": 20,
+      "tier": 2
+    },
+    {
+      "bug_id": "keras/36",
+      "project": "keras",
+      "idx": 28,
+      "tier": 2
+    },
+    {
+      "bug_id": "keras/38",
+      "project": "keras",
+      "idx": 29,
+      "tier": 2
+    },
+    {
+      "bug_id": "luigi/1",
+      "project": "luigi",
+      "idx": 31,
+      "tier": 2
+    },
+    {
+      "bug_id": "luigi/13",
+      "project": "luigi",
+      "idx": 36,
+      "tier": 1
+    },
+    {
+      "bug_id": "luigi/18",
+      "project": "luigi",
+      "idx": 40,
+      "tier": 2
+    },
+    {
+      "bug_id": "luigi/20",
+      "project": "luigi",
+      "idx": 42,
+      "tier": 1
+    },
+    {
+      "bug_id": "luigi/25",
+      "project": "luigi",
+      "idx": 44,
+      "tier": 1
+    },
+    {
+      "bug_id": "luigi/28",
+      "project": "luigi",
+      "idx": 46,
+      "tier": 2
+    },
+    {
+      "bug_id": "luigi/30",
+      "project": "luigi",
+      "idx": 47,
+      "tier": 2
+    },
+    {
+      "bug_id": "matplotlib/3",
+      "project": "matplotlib",
+      "idx": 49,
+      "tier": 2
+    },
+    {
+      "bug_id": "matplotlib/7",
+      "project": "matplotlib",
+      "idx": 50,
+      "tier": 1
+    },
+    {
+      "bug_id": "matplotlib/26",
+      "project": "matplotlib",
+      "idx": 54,
+      "tier": 1
+    },
+    {
+      "bug_id": "matplotlib/27",
+      "project": "matplotlib",
+      "idx": 55,
+      "tier": 1
+    },
+    {
+      "bug_id": "pandas/1",
+      "project": "pandas",
+      "idx": 57,
+      "tier": 1
+    },
+    {
+      "bug_id": "pandas/4",
+      "project": "pandas",
+      "idx": 58,
+      "tier": 1
+    },
+    {
+      "bug_id": "pandas/6",
+      "project": "pandas",
+      "idx": 59,
+      "tier": 2
+    },
+    {
+      "bug_id": "pandas/28",
+      "project": "pandas",
+      "idx": 65,
+      "tier": 1
+    },
+    {
+      "bug_id": "pandas/39",
+      "project": "pandas",
+      "idx": 68,
+      "tier": 2
+    },
+    {
+      "bug_id": "pandas/50",
+      "project": "pandas",
+      "idx": 69,
+      "tier": 2
+    },
+    {
+      "bug_id": "pandas/100",
+      "project": "pandas",
+      "idx": 83,
+      "tier": 2
+    },
+    {
+      "bug_id": "pandas/135",
+      "project": "pandas",
+      "idx": 87,
+      "tier": 2
+    },
+    {
+      "bug_id": "pandas/141",
+      "project": "pandas",
+      "idx": 89,
+      "tier": 2
+    },
+    {
+      "bug_id": "sanic/1",
+      "project": "sanic",
+      "idx": 102,
+      "tier": 1
+    },
+    {
+      "bug_id": "sanic/4",
+      "project": "sanic",
+      "idx": 103,
+      "tier": 2
+    },
+    {
+      "bug_id": "scrapy/21",
+      "project": "scrapy",
+      "idx": 110,
+      "tier": 2
+    },
+    {
+      "bug_id": "scrapy/29",
+      "project": "scrapy",
+      "idx": 112,
+      "tier": 2
+    },
+    {
+      "bug_id": "scrapy/35",
+      "project": "scrapy",
+      "idx": 114,
+      "tier": 2
+    },
+    {
+      "bug_id": "scrapy/38",
+      "project": "scrapy",
+      "idx": 116,
+      "tier": 2
+    },
+    {
+      "bug_id": "spacy/1",
+      "project": "spacy",
+      "idx": 119,
+      "tier": 2
+    },
+    {
+      "bug_id": "thefuck/1",
+      "project": "thefuck",
+      "idx": 122,
+      "tier": 2
+    },
+    {
+      "bug_id": "thefuck/4",
+      "project": "thefuck",
+      "idx": 125,
+      "tier": 2
+    },
+    {
+      "bug_id": "thefuck/14",
+      "project": "thefuck",
+      "idx": 128,
+      "tier": 2
+    },
+    {
+      "bug_id": "thefuck/22",
+      "project": "thefuck",
+      "idx": 131,
+      "tier": 2
+    },
+    {
+      "bug_id": "thefuck/26",
+      "project": "thefuck",
+      "idx": 133,
+      "tier": 2
+    },
+    {
+      "bug_id": "tornado/3",
+      "project": "tornado",
+      "idx": 139,
+      "tier": 2
+    },
+    {
+      "bug_id": "tornado/14",
+      "project": "tornado",
+      "idx": 141,
+      "tier": 1
+    },
+    {
+      "bug_id": "tqdm/6",
+      "project": "tqdm",
+      "idx": 143,
+      "tier": 2
+    },
+    {
+      "bug_id": "youtube-dl/11",
+      "project": "youtube-dl",
+      "idx": 149,
+      "tier": 2
+    },
+    {
+      "bug_id": "youtube-dl/12",
+      "project": "youtube-dl",
+      "idx": 150,
+      "tier": 1
+    },
+    {
+      "bug_id": "youtube-dl/13",
+      "project": "youtube-dl",
+      "idx": 151,
+      "tier": 2
+    },
+    {
+      "bug_id": "youtube-dl/20",
+      "project": "youtube-dl",
+      "idx": 153,
+      "tier": 2
+    },
+    {
+      "bug_id": "youtube-dl/25",
+      "project": "youtube-dl",
+      "idx": 154,
+      "tier": 2
+    }
+  ],
+  "indices": [
+    0,
+    1,
+    5,
+    8,
+    10,
+    13,
+    17,
+    20,
+    28,
+    29,
+    31,
+    36,
+    40,
+    42,
+    44,
+    46,
+    47,
+    49,
+    50,
+    54,
+    55,
+    57,
+    58,
+    59,
+    65,
+    68,
+    69,
+    83,
+    87,
+    89,
+    102,
+    103,
+    110,
+    112,
+    114,
+    116,
+    119,
+    122,
+    125,
+    128,
+    131,
+    133,
+    139,
+    141,
+    143,
+    149,
+    150,
+    151,
+    153,
+    154
+  ],
+  "tier1_count": 12,
+  "tier2_count": 38,
+  "skipped_tier3_count": 33
+}
