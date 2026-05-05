@@ -23,3 +23,8 @@ Thumbs.db
 # IDE
 .idea/
 .vscode/
+
+# Training outputs (LoRA adapters, checkpoints, tensorboard logs)
+train/output/
+train/runs/
+train/checkpoints/

@@ -1,0 +1,33 @@
+{
+  "total_samples": 89553,
+  "train_samples": 80597,
+  "validation_samples": 8956,
+  "train_percentage": 90,
+  "validation_percentage": 10,
+  "sampling_method": "stratified by type (10% from each)",
+  "types": {
+    "RunBugRun": {
+      "total": 69759,
+      "train": 62783,
+      "validation": 6976
+    },
+    "repairllama": {
+      "total": 17044,
+      "train": 15339,
+      "validation": 1705
+    },
+    "PyResBugs": {
+      "total": 2750,
+      "train": 2475,
+      "validation": 275
+    }
+  },
+  "format": {
+    "input_field": "IR4 (buggy function with commented buggy lines + <FILL_ME> placeholder)",
+    "output_field": "OR2 (fixed code snippet)"
+  },
+  "usage": {
+    "python": "from datasets import load_dataset\nds = load_dataset('parquet', data_files='train.parquet')",
+    "note": "Test data: use benchmark datasets from repairllama/benchmarks/"
+  }
+}
