@@ -33,8 +33,17 @@ import torch
 from tqdm.auto import tqdm
 
 
-def _load_model_and_tokenizer(model_name: str, load_in_8bit: bool):
-    """Return (model, tokenizer) ready for inference."""
+def _load_model_and_tokenizer(
+    model_name: str,
+    load_in_8bit: bool,
+    adapter_name: Optional[str] = None,
+):
+    """Return (model, tokenizer) ready for inference.
+
+    If `adapter_name` is given, loads the LoRA/PEFT adapter on top of the base
+    model. Accepts either an HF Hub repo id (e.g. "user/snakellama-r16") or a
+    local path to a saved adapter directory.
+    """
     from transformers import (
         AutoModelForCausalLM,
         AutoTokenizer,
@@ -55,7 +64,7 @@ def _load_model_and_tokenizer(model_name: str, load_in_8bit: bool):
             llm_int8_threshold=6.0,
         )
 
-    print(f"[inference] Loading model: {model_name}")
+    print(f"[inference] Loading base model: {model_name}")
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=quant_config,
@@ -63,6 +72,14 @@ def _load_model_and_tokenizer(model_name: str, load_in_8bit: bool):
         device_map="auto",
         trust_remote_code=True,
     )
+
+    if adapter_name:
+        from peft import PeftModel
+        print(f"[inference] Attaching adapter: {adapter_name}")
+        model = PeftModel.from_pretrained(model, adapter_name)
+        # Don't merge here — merging is incompatible with bnb 8-bit/4-bit.
+        # Inference works fine on the wrapped PeftModel directly.
+
     model.eval()
     return model, tokenizer
 
@@ -71,6 +88,7 @@ def run_inference(
     eval_jsonl: str,
     output_jsonl: str,
     model_name: str = "codellama/CodeLlama-7b-hf",
+    adapter_name: Optional[str] = None,
     n_samples: int = 10,
     max_new_tokens: int = 256,
     temperature: float = 1.0,
@@ -127,7 +145,9 @@ def run_inference(
         print("[inference] Nothing to do.")
         return
 
-    model, tokenizer = _load_model_and_tokenizer(model_name, load_in_8bit)
+    model, tokenizer = _load_model_and_tokenizer(
+        model_name, load_in_8bit, adapter_name=adapter_name
+    )
 
     t0 = time.time()
     out_f = open(out_path, "a", encoding="utf-8")
@@ -166,7 +186,7 @@ def run_inference(
                             max_new_tokens=max_new_tokens,
                             do_sample=True,
                             temperature=temperature,
-                            top_p=top_p,
+                            top_p=top_p, 
                             num_return_sequences=bs,
                             pad_token_id=tokenizer.eos_token_id,
                         )
@@ -233,12 +253,16 @@ def main():
                     help="Parallel decode width (default = n_samples). "
                          "Lower this on long-input datasets to avoid VRAM OOM. "
                          "BugsInPy on T4 8-bit: try 2.")
+    ap.add_argument("--adapter", default=None,
+                    help="Optional PEFT/LoRA adapter (HF repo id or local path) "
+                         "to attach on top of the base model.")
     args = ap.parse_args()
 
     run_inference(
         eval_jsonl=args.eval_jsonl,
         output_jsonl=args.output_jsonl,
         model_name=args.model,
+        adapter_name=args.adapter,
         n_samples=args.n_samples,
         max_new_tokens=args.max_new_tokens,
         temperature=args.temperature,
