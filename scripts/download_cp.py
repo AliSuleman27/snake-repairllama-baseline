@@ -10,7 +10,7 @@ from pathlib import Path
 # === EDIT THESE ============================================================
 HF_TOKEN  = ""   # read access is enough
 HF_REPO   = "alisuleman525/snake-repairllama-checkpoint-400"
-LOCAL_DIR = "/workspace/train/output/snake-repairllama-7b-fim-r16/checkpoint-400"
+LOCAL_DIR = "/workspace/snake-repairllama-baseline/train/output/snake-repairllama-7b-fim-r16/checkpoint-400"
 # ============================================================================
 
 try:
