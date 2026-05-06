@@ -62,8 +62,8 @@ VAL_PARQUET = "train/data/validation.parquet"
 
 # Per-GPU batch. Total effective batch = per_device * grad_accum * num_gpus.
 # 4x A5000 (24 GB each): per_device=4 fits comfortably with seq=1024 + no checkpoint.
-PER_DEVICE_BATCH_SIZE = 4
-GRAD_ACCUM = 2
+PER_DEVICE_BATCH_SIZE = 2  # 4 OOMs on 24 GB cards (A5000) at seq=1024 + no checkpointing
+GRAD_ACCUM = 4             # effective batch = 2 * 4 * num_gpus, stays 32 on a 4-GPU pod
 
 # LoRA
 LORA_R = 16
