@@ -11,8 +11,8 @@ from pathlib import Path
 
 # === EDIT THESE ============================================================
 HF_TOKEN  = ""
-HF_REPO   = "alisuleman525/snake-repairllama-checkpoint-400"   # change user if needed
-LOCAL_DIR = r"C:\Users\3TEE\Downloads\train1\train\output\snake-repairllama-7b-fim-r16\checkpoint-400"
+HF_REPO   = "alisuleman525/snake-repairllama-checkpoint-400-r2"   # change user if needed
+LOCAL_DIR = r"D:\checkpoint-400\checkpoint-400"
 # ============================================================================
 
 if not Path(LOCAL_DIR).is_dir():
