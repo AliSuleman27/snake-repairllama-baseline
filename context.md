@@ -160,6 +160,7 @@ metric (see §7).
   Top-10 AST       :    9 / 161 (  5.6%)
   Top-10 Compile   :  128 / 161 ( 79.5%)
   Top-10 Buried    :   15 / 161 (  9.3%)
+
 ================================================================
 ```
 
@@ -345,7 +346,7 @@ gradient_checkpointing = False              # not needed at this LoRA size on A1
 bf16                = True
 ```
 
-**Key difference from Ahsan's run**: same LoRA shape (r=8, alpha=16, q,v only),
+**Key difference from First run**: same LoRA shape (r=8, alpha=16, q,v only),
 matching base model (`7b-hf` not Python-hf), matching LR, matching effective
 batch.
 
@@ -458,7 +459,7 @@ and the trained model emits EOS reliably. Used `max_new_tokens=128`,
 
   Top-10 Exact     :   32 / 40 ( 80.0%)
   Top-10 AST       :   33 / 40 ( 82.5%)
-  Top-10 Compile   :   29 / 40 ( 72.5%)
+  Top-10 Compile   :   40 / 40 ( 100%)
   Top-10 Buried    :   32 / 40 ( 80.0%)
 ================================================================
 
