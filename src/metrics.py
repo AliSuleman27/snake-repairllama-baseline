@@ -93,20 +93,43 @@ def _normalize_ast(code: str) -> Optional[str]:
     return None
 
 
-def _splice_into_function(buggy_function: str, patch: str) -> str:
-    """
-    Replace the '# Buggy code:' block + <FILL_ME> region in buggy_function with
-    `patch`. Used to check that the spliced function parses.
+def _splice_and_parse(ir4_input: str, patch: str) -> bool:
+    """Proper compile check: splice the patch into the IR4 at the <FILL_ME>
+    placeholder and parse the resulting full function.
 
-    We don't have the IR4 here directly — but we have buggy_function, and we
-    know the patch is meant to replace some contiguous slice. For a syntax
-    check we do a simple thing: replace the entire buggy function body with
-    patch lines, indented to match the function. This is a coarse but
-    sufficient compile check.
+    The IR4 input is the buggy function with the buggy line(s) commented out
+    and a single ``<FILL_ME>`` token marking where the fix goes. Replacing the
+    placeholder with the patch produces the patched function exactly as it
+    would appear in the codebase if the model's prediction were applied.
+    Parsing that gives a real "would this code compile" answer — including
+    cases like block headers (``while queue:``) that fail standalone parse but
+    are valid in their actual context (because the body comes from the
+    suffix).
+
+    Returns True iff the spliced function parses without SyntaxError.
     """
-    # Coarsest-but-safe: just attempt to parse the patch on its own, wrapped
-    # inside a stub function to give it scope. This catches syntax errors that
-    # are independent of context.
+    if not ir4_input or "<FILL_ME>" not in ir4_input:
+        return False
+    spliced = ir4_input.replace("<FILL_ME>", patch, 1)
+    try:
+        ast.parse(spliced)
+        return True
+    except SyntaxError:
+        return False
+    except Exception:
+        return False
+
+
+def _stub_wrap_parse(patch: str) -> bool:
+    """Backward-compat fallback used when IR4 input isn't available.
+
+    Wraps the patch in a stub function and tries to parse it. This is a
+    weaker check than the IR4 splice — it fails on patches like
+    ``while queue:`` that need surrounding context to be valid. Kept for
+    callers that don't have the eval record's ``input`` field.
+    """
+    if not patch.strip():
+        return True  # empty patch in a stub function: parses as `def _stub(): pass`
     indent = "    "
     wrapped = "def _stub():\n" + "".join(
         indent + ln if ln.strip() else ln
@@ -114,23 +137,30 @@ def _splice_into_function(buggy_function: str, patch: str) -> str:
     )
     if not wrapped.endswith("\n"):
         wrapped += "\n"
-    # If patch is empty, the stub still needs a body
-    body_present = any(ln.strip() for ln in patch.splitlines())
-    if not body_present:
-        wrapped = "def _stub():\n    pass\n"
     try:
         ast.parse(wrapped)
-        return "OK"
+        return True
     except SyntaxError:
-        return "FAIL"
+        return False
+    except Exception:
+        return False
 
 
 def score_patch(
     raw_generation: str,
     gold: str,
     buggy_function: str = "",
+    ir4_input: Optional[str] = None,
 ) -> Dict:
-    """Score one generated patch."""
+    """Score one generated patch.
+
+    The optional ``ir4_input`` is the eval record's ``input`` field (the IR4
+    prompt with ``<FILL_ME>``). When provided, the ``compile`` metric performs
+    a real splice-and-parse on the full patched function. When not provided,
+    falls back to a stub-wrap check (weaker, over-strict on incomplete
+    block headers like ``while queue:`` that are valid in context but not
+    standalone).
+    """
     pred_strict = extract_patch(raw_generation, mode="strict")
     pred_lenient = extract_patch(raw_generation, mode="lenient")
 
@@ -152,7 +182,10 @@ def score_patch(
         # One parsed, the other didn't — they're not equivalent.
         ast_match = False
 
-    compile_ok = _splice_into_function(buggy_function, pred_strict) == "OK"
+    if ir4_input:
+        compile_ok = _splice_and_parse(ir4_input, pred_strict)
+    else:
+        compile_ok = _stub_wrap_parse(pred_strict)
 
     # "Buried" = gold (normalized) appears as a substring in lenient generation
     buried = gold_norm in normalize_for_match(pred_lenient)
@@ -219,11 +252,13 @@ def evaluate_file(
             rec = json.loads(line)
             bug_id = rec["bug_id"]
             gold = rec["gold_output"]
-            buggy_function = eval_index.get(bug_id, {}).get("buggy_function", "")
+            eval_rec = eval_index.get(bug_id, {})
+            buggy_function = eval_rec.get("buggy_function", "")
+            ir4_input = eval_rec.get("input")
             gens = rec["generations"]
 
             scores = [
-                score_patch(g, gold, buggy_function) for g in gens
+                score_patch(g, gold, buggy_function, ir4_input=ir4_input) for g in gens
             ]
 
             # Attach plausibility flag (None if unknown)
