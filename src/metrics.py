@@ -101,23 +101,52 @@ def _splice_and_parse(ir4_input: str, patch: str) -> bool:
     and a single ``<FILL_ME>`` token marking where the fix goes. Replacing the
     placeholder with the patch produces the patched function exactly as it
     would appear in the codebase if the model's prediction were applied.
-    Parsing that gives a real "would this code compile" answer — including
-    cases like block headers (``while queue:``) that fail standalone parse but
-    are valid in their actual context (because the body comes from the
-    suffix).
 
-    Returns True iff the spliced function parses without SyntaxError.
+    Some IR4 prompts in BugsInPy/RepairLLaMA correspond to **methods inside a
+    class** — their text starts with an indented ``def`` (4-space indent
+    because the method's surrounding ``class X:`` was stripped from the
+    prompt). Such text is a SyntaxError standalone but valid as the body of a
+    class. So if the direct parse fails AND the splice starts with an
+    indented ``def``, we retry by prepending ``class _Stub:`` and parsing
+    again. Without this fallback, every class-method bug's compile metric
+    would be artificially 0 — indistinguishable from genuinely broken
+    patches.
+
+    Returns True iff the spliced text parses (with or without the class wrap).
     """
     if not ir4_input or "<FILL_ME>" not in ir4_input:
         return False
     spliced = ir4_input.replace("<FILL_ME>", patch, 1)
+
+    # Try as-is (top-level function or other valid module-scope code)
     try:
         ast.parse(spliced)
         return True
     except SyntaxError:
-        return False
+        pass
     except Exception:
         return False
+
+    # Fallback: indented-def class-method case. Look at the first non-blank
+    # non-comment line. If it's indented + starts with `def `, wrap in a stub
+    # class so the methods are at valid scope.
+    for line in spliced.splitlines():
+        stripped = line.lstrip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        leading = len(line) - len(stripped)
+        if leading > 0 and stripped.startswith("def "):
+            wrapped = "class _Stub:\n" + spliced
+            try:
+                ast.parse(wrapped)
+                return True
+            except SyntaxError:
+                return False
+            except Exception:
+                return False
+        break  # first content line wasn't an indented def; no fallback applies
+
+    return False
 
 
 def _stub_wrap_parse(patch: str) -> bool:

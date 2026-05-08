@@ -130,7 +130,7 @@ def cmd_filter(args):
 
             for gi, gen in enumerate(rec["generations"]):
                 s = score_patch(gen, gold, buggy_function, ir4_input=ir4_input)
-                if not s["compile"]:
+                if not args.skip_compile_filter and not s["compile"]:
                     f_skip.write(json.dumps({
                         "bug_id": bug_id,
                         "gen_idx": gi,
@@ -306,6 +306,11 @@ def main():
     f.add_argument("--eval", required=True, help="Path to bugsinpy_eval_verified*.jsonl")
     f.add_argument("--inference", required=True, help="Path to inference JSONL with generations")
     f.add_argument("--out-dir", required=True, help="Output directory for filtered + skipped + dedup-map")
+    f.add_argument("--skip-compile-filter", action="store_true",
+                   help="Skip the compile pre-filter (dedup-only mode). Useful when the "
+                        "compile metric wrongly drops valid patches — e.g. for class-method "
+                        "IR4s or other context-dependent shapes. Lets the actual test runner "
+                        "be the source of truth for whether a patch works.")
 
     m = sub.add_parser("merge", help="Merge tested + skipped + duplicate results")
     m.add_argument("--tested", required=True)
