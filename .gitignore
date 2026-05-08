@@ -8,8 +8,8 @@ venv/
 *.log
 
 # Large artifacts (keep small JSONL inputs, ignore generations)
-results/*.jsonl
-results/*.json
+# results/*.jsonl
+# results/*.json
 !results/.gitkeep
 
 # HF cache
@@ -27,4 +27,4 @@ Thumbs.db
 # Training outputs (LoRA adapters, checkpoints, tensorboard logs)
 train/output/
 train/runs/
-train/checkpoints/
+# train/checkpoints/
