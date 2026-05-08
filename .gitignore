@@ -25,6 +25,6 @@ Thumbs.db
 .vscode/
 
 # Training outputs (LoRA adapters, checkpoints, tensorboard logs)
-train/output/
-train/runs/
+# train/output/
+# train/runs/
 # train/checkpoints/
