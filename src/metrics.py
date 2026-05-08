@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import ast
 import json
+import textwrap
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -32,13 +33,64 @@ from .postprocess import extract_patch, normalize_for_match
 
 
 def _normalize_ast(code: str) -> Optional[str]:
-    try:
-        tree = ast.parse(code)
-        return ast.dump(tree, annotate_fields=False, include_attributes=False)
-    except SyntaxError:
+    """Parse a code fragment into a canonical AST string for equality comparison.
+
+    The patches in this dataset are FIM completions — typically indented
+    snippets ripped from inside a function body. Two issues block naive
+    `ast.parse`:
+
+      1. **Indented top-level**: ``ast.parse("        n &= n - 1")`` raises a
+         SyntaxError because top-level code can't be indented.
+      2. **Function-only constructs**: ``ast.parse("return x")`` raises a
+         SyntaxError because ``return`` is only valid inside a function.
+      3. **Incomplete blocks**: ``ast.parse("while queue:")`` raises a
+         SyntaxError because a ``while`` header requires an indented body. FIM
+         patches frequently *are* just block headers — the body comes from the
+         suffix context the model never sees in its output.
+
+    Normalization strategy:
+      - Dedent to strip the patch's common leading indentation (fixes #1).
+      - Wrap in a stub ``def _stub(): ...`` so in-function constructs are valid
+        (fixes #2).
+      - If the dedented code's last non-blank line ends with ``:``, append a
+        ``pass`` indented one level deeper so the trailing block has a body
+        (fixes #3).
+
+    Returns the canonical ``ast.dump`` of the resulting Module, or None if the
+    fragment is empty / cannot be made parseable by either path.
+    """
+    if not code or not code.strip():
         return None
-    except Exception:
+    code_dedented = textwrap.dedent(code).rstrip()
+    if not code_dedented:
         return None
+
+    def _wrap_and_parse(c: str) -> Optional[str]:
+        wrapped = "def _stub():\n" + textwrap.indent(c, "    ") + "\n"
+        try:
+            tree = ast.parse(wrapped)
+            return ast.dump(tree, annotate_fields=False, include_attributes=False)
+        except SyntaxError:
+            return None
+        except Exception:
+            return None
+
+    # Try parsing the dedented snippet as-is.
+    direct = _wrap_and_parse(code_dedented)
+    if direct is not None:
+        return direct
+
+    # Fallback: incomplete trailing block (e.g. ``while queue:``). Look at the
+    # last non-blank line; if it ends with ``:``, append a ``pass`` indented one
+    # level deeper so the block has a syntactically valid body.
+    lines = code_dedented.splitlines()
+    last_nonblank = next((ln for ln in reversed(lines) if ln.strip()), None)
+    if last_nonblank and last_nonblank.rstrip().endswith(":"):
+        current_indent = len(last_nonblank) - len(last_nonblank.lstrip())
+        pass_indent = " " * (current_indent + 4)
+        return _wrap_and_parse(code_dedented + "\n" + pass_indent + "pass")
+
+    return None
 
 
 def _splice_into_function(buggy_function: str, patch: str) -> str:
@@ -89,9 +141,16 @@ def score_patch(
 
     pred_ast = _normalize_ast(pred_strict)
     gold_ast = _normalize_ast(gold)
-    ast_match = (
-        pred_ast is not None and gold_ast is not None and pred_ast == gold_ast
-    )
+    if pred_ast is not None and gold_ast is not None:
+        ast_match = pred_ast == gold_ast
+    elif pred_ast is None and gold_ast is None:
+        # Both patches are unparseable (rare — e.g. truly malformed fragments).
+        # Fall back to the normalized-string check so AST match is never less
+        # than Exact match.
+        ast_match = exact
+    else:
+        # One parsed, the other didn't — they're not equivalent.
+        ast_match = False
 
     compile_ok = _splice_into_function(buggy_function, pred_strict) == "OK"
 
