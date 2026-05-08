@@ -176,19 +176,31 @@ def checkout_buggy(project: str, bug_num: int, work_root: Path, log_file: Path) 
     return project_dir
 
 
+# BugsInPy is COPY'd into the image at /home/user/BugsInPy by the Dockerfile,
+# and `bugsinpy-checkout`/etc. are on PATH. We read bug metadata from the
+# in-image source (always present) rather than relying on what checkout
+# happens to write to the work dir.
+BUGSINPY_DIR = Path("/home/user/BugsInPy")
+
+
 def setup_env_and_compile(
-    project: str, bug_num: int, work_dir: Path, project_dir: Path, log_file: Path,
+    project: str, bug_num: int, project_dir: Path, log_file: Path,
 ) -> Tuple[bool, str]:
     """Ensure conda env exists, run bugsinpy-compile in it. Returns (ok, env_name)."""
-    bug_info_path = work_dir / "bugsinpy_bug.info"
-    requirements_path = work_dir / "bugsinpy_requirements.txt"
+    bug_meta_dir = BUGSINPY_DIR / "projects" / project / "bugs" / str(bug_num)
+    bug_info_path = bug_meta_dir / "bug.info"
+    requirements_path = bug_meta_dir / "requirements.txt"
 
     if not bug_info_path.exists():
+        with open(log_file, "ab") as f:
+            f.write(f"\n[bug.info missing at {bug_info_path}]\n".encode())
         return False, ""
 
     bug_info_text = bug_info_path.read_text(encoding="utf-8", errors="replace")
     py_match = re.search(r"3\.\d+(?:\.\d+)?", bug_info_text)
     if not py_match:
+        with open(log_file, "ab") as f:
+            f.write(f"\n[no python version in bug.info]\n{bug_info_text}\n".encode())
         return False, ""
     python_version = py_match.group(0)
     if python_version.count(".") == 1:
@@ -196,6 +208,9 @@ def setup_env_and_compile(
 
     requirements = requirements_path.read_text(encoding="utf-8", errors="replace") if requirements_path.exists() else ""
     env_name = conda_env_hash(python_version, requirements)
+
+    with open(log_file, "ab") as f:
+        f.write(f"\n[setup] python={python_version} env={env_name}\n".encode())
 
     if not conda_env_exists(env_name):
         ok = conda_env_create(env_name, python_version, log_file)
@@ -368,7 +383,7 @@ def main():
 
             work_dir = work_root / f"{project}_{bug_num}"
             print(f"[{bug_id}] env + compile ...", flush=True)
-            ok, env_name = setup_env_and_compile(project, bug_num, work_dir, project_dir, log_file)
+            ok, env_name = setup_env_and_compile(project, bug_num, project_dir, log_file)
             if not ok:
                 for gi in orig_indices:
                     if (bug_id, gi) in done: continue
