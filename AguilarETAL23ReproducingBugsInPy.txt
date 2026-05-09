@@ -1,0 +1,323 @@
+Reproducing and Improving the BugsInPy Dataset
+
+       Faustino Aguilar                     Samuel Grayson                            Darko Marinov
+Dept. of Computer Engineering          Dept. of Computer Science                Dept. of Computer Science
+                               University of Illinois Urbana-Champaign  University of Illinois Urbana-Champaign
+      University of Panama
+      Panama City, Panama                    Urbana, IL, USA                          Urbana, IL, USA
+orcid.org/0009-0000-1375-1143        orcid.org/0000-0001-5411-356X            orcid.org/0000-0001-5023-3492
+
+Abstract--We assess the reproducibility of the BugsInPy dataset     Our contributions include:
+less than three years after its original publication. The bug
+dataset provides some information about the software environment       ∑ Improvements to the BugsInPy test execution framework,
+in which the code should be run, but this information can                 which make it easier to run experiments en masse.
+be incomplete or can decay into something uninstallable over
+time. We rectify as many of these problems as we can and               ∑ Modifications to the BugsInPy test execution framework,
+redesign the original dataset to be more easily reusable and              which install and use the correct version of Python.
+reproducible by future research projects. Based on our experience,
+we offer suggestions to authors of Python artifacts to improve         ∑ The results of which bugs were reproducible with and
+their reproducibility.                                                    without our improvements and modifications.
+
+Index Terms--reproducibility, bug database, BugsInPy, Python,       We evaluate the following research questions:
+package managers, Pip, Conda, containers, Docker
+                                                                    RQ1. How many bugs in BugsInPy are reproducible with
+                          I. INTRODUCTION                           no "extra" work? For a bug to be reproducible, the software
+                                                                    environment should install without failure, the buggy version
+BugsInPy [1] is a curated dataset of real-world bugs in large       should fail the identified test cases, and the fixed version should
+Python projects, intended to be used by researchers to develop      pass these test cases.
+and evaluate software testing and debugging tools for Python
+on a diverse set of real-world bugs from multiple projects.         RQ2. How many non-reproducible bugs can we rescue? We
+This dataset can be used to evaluate the efficacy of tools          rescue a bug by modifying the scripts and data such that the bug
+in bug detection, fixing, software reliability, and more. For       that was initially not reproducible now becomes reproducible.
+example, several software engineering studies [2]≠[6] already
+use BugsInPy.                                                       This article proceeds with the methodology section, which
+                                                                    explains how we first tried to reproduce BugsInPy and what
+The BugsInPy dataset contains a variety of information about        rescue procedures we took when bugs were not reproducible.
+each bug, and these bugs are organized by the project they          Then we summarize the results of our executions and analyze
+come from, including:                                               the failures. Finally, we engage in an open-ended discussion
+                                                                    of our experiments with several pieces of advice to authors of
+   ∑ A buggy commit                                                 future reproducible artifacts in Python and those seeking to
+   ∑ A fixed commit                                                 reproduce such artifacts.
+   ∑ Python version used
+   ∑ One or more test cases that indicate the bug's presence                                 II. METHODOLOGY
+
+The BugsInPy dataset includes a database abstraction layer          We first tried to reproduce each bug using the original script
+and a test execution framework. The database abstraction layer      released with the BugsInPy dataset. We run the script on an
+provides a way to access the dataset in a structured way. The       Ubuntu 18.04 distribution, because the Docker image mentioned
+test execution framework allows researchers to run test cases       in the original BugsInPy paper used Ubuntu 18.04. For bugs
+relevant to a particular bug.                                       that were not reproducible using the original script, we analyzed
+                                                                    the problems to identify the root cause and then made changes
+We sought to use the BugsInPy dataset to verify, for each           to try to rescue the bugs and make them reproducible.
+bug, that all the test cases could be set up, that the buggy
+commit fails, and that the fixed commit passes. Our work is a       As part of our rescue process, we made the following changes:
+reproduction (using ACM's 2020 definition [7]) because we
+use the scripts from the original work. (In contrast, our work         1. Added Dockerfile for containers: We use a Docker con-
+would be a replication if we did not use any original scripts              tainer build script, Dockerfile, to build a Docker im-
+but wrote all new scripts from scratch to attempt to repeat the            age that provides a consistent starting point in which our
+original results.)                                                         scripts can install the correct software environment. The
+                                                                           BugsInPy original paper and the current Git repository do
+                                                                           not mention or include any Dockerfile, but DockerHub
+    does have an image for BugsInPy published by one of                  dependencies for different platforms [11]. By following
+    the authors of the BugsInPy original paper; however, we              these instructions and setting up the required libraries,
+    could not find a Dockerfile corresponding to that image.             users can successfully install and utilize Matplotlib and
+    Moreover, we wanted our image to include other changes               any other package with similar external dependencies.
+    mentioned below (e.g., Conda). The use of container                  Presumably, the original BugsInPy authors manually
+    sandboxes modifications that the BugsInPy script makes               modified their system to have these system libraries;
+    to the environment (e.g., modifying ~/.bashrc). While                in our case, we identify packages that Pip cannot install
+    our image is available in the popular DockerHub registry             on vanilla Ubuntu or Debian and simply install those
+    [8], we suggest that users seeking robust reproducibility            with Conda instead.
+    build the image from our Dockerfile available in our Git         4. Added caching of environments: Building the
+    repository rather than depending on an external registry.            environment from source code can be costly, so we
+2. Added Conda package manager: Each bug may                             reuse environments across many bugs when their Python
+    require a different version of Python, as specified in               package requirements and Python versions are identical.
+    the dataset, but the BugsInPy script ignores the specified           This optimization helps reduce the time and resources
+    version of Python, deferring to the system default Python            required for environment setup, as it bypasses the costly
+    instead. Presumably, the BugsInPy authors manually                   process of building environments from source code.
+    changed their system's version of Python according to                While it is tempting to use the same Conda environment
+    the specification of each bug, but this process is not               for all bugs in each project (rather than for each bug),
+    fully automated, making it difficult for future users. We            there are multiple occasions where different bugs of the
+    modified the main BugsInPy script to install the correct             same project require different dependencies. For example,
+    version of Python using Conda. Conda is a cross-platform             ansible/bugs/{1,11,14}/requirements.txt
+    package manager. Packages installed by Conda neither                 all vary subtly.
+    use nor modify the system version of those packages,             5. Correct installation of requirements: The
+    so Conda can support different environments, each with               BugsInPy dataset correctly recognizes that
+    its own requirements that may potentially conflict with              installing the dependencies line-by-line cat
+    the other environments. Conda package repositories store             requirements.txt | filter | xargs -n
+    packages containing prebuilt binaries and metadata for               1 pip install, rather than using pip install
+    each platform, so installing is much faster than compiling          -r requirements.txt, bypasses certain restrictions
+    from source code.                                                    imposed by Pip. Specifically, when installing all
+3. Replaced Pip with Conda where appropriate: The                        dependencies at once, Pip may ignore very old packages.
+    original BugsInPy scripts install all Python packages                However, sequentially installing the dependencies allows
+    using Pip package manager. Pip can invoke the compiler               us to install these old packages and thus reproduce the
+    to build dependencies from source code [9] or download               bugs accurately. However, installing the dependencies
+    prebuilt binary files. The most common usage of Pip                  line-by-line results in failed installations for projects
+    is to install packages from the Python Package Index                 that include the -e git+https://... syntax in
+   (PyPI) using requirement specifiers. As specified in the              their requirements.txt file, because they would
+    official Python Packaging documentation, a requirement               get passed along as pip install -e and pip
+    specifier typically consists of a project name followed              install git+https://.... Our revised script
+    by an optional version specifier. PEP 440 provides the               ensures that each line from the requirements.txt
+    specification for requirement specifiers, including a com-           file is properly processed and passed as an argument to
+    prehensive guide to the currently supported specifiers [10].         the pip install command. To correct this issue in
+    However, some packages may require additional system                 the BugsInPy dataset, we have opened a pull request in
+    libraries or dependencies that cannot be installed solely            the original repository [12]. This fix is crucial, because
+    through Pip. For example, Matplotlib, a popular Python               it impacts the reproducibility of bugs in several projects
+    plotting library, has required system-level dependencies             such as black, cookiecutter, keras, luigi,
+    that Pip cannot automatically handle, such as libpng,                pandas, sanic, and thefuck. We have started from
+    freetype, or Tk. Consequently, if a bug in a project's               this pull request because it is the simplest of our five
+    environment depends on Matplotlib, attempting to install             changes; if we receive some feedback from the original
+    and run that project on a vanilla Ubuntu or Debian                   BugsInPy authors, we plan to open pull requests for the
+    system without the necessary system libraries would                  other four changes.
+    result in installation failures. In such cases, it becomes
+    the responsibility of the user or system administrator to                                  III. RESULTS
+    ensure that the required system libraries are installed
+    manually before attempting to install the package with        This section presents and discusses our results on reproducing
+    Pip. The Matplotlib documentation provides detailed           bugs in BugsInPy before and after our changes. Table I shows
+    instructions on how to install the necessary system-level     the results without our modifications, and Table II shows the
+results after our modifications. The outcomes that we can get               RQ2. We were able to rescue 85% of the non-reproducible
+for bugs are:                                                               bugs in the original BugsInPy, resulting in a total repro-
+                                                                            duction rate of 95%.
+   ∑ Error (Err): Some step in the installation of the software
+      environment needed to reproduce the bug failed.                       With over 95% of bugs being successfully reproduced (passing
+                                                                            the test cases in the fixed commit and failing test cases in the
+   ∑ Both-pass (B-pass): Both versions pass, although we                    buggy commit), researchers have more bugs at their disposal
+      would expect the buggy version to fail.                               for using BugsInPy, e.g., for evaluating fuzzing, automatic
+                                                                            program repair, and other research techniques.
+   ∑ Both-fail (B-fail): Both versions fail, although we would
+      expect the fixed version to pass.                                     Table III presents the running time taken to run the respective
+                                                                            containers that attempt to reproduce bugs in each project within
+   ∑ Expected (Exp): The buggy version fails, and the fixed                 the BugsInPy dataset. We include the time for both bugs that
+      version passes. We consider only these bugs as actually               we could reproduce and bugs that we could not reproduce.
+     "reproduced".                                                          These times are important to help researchers estimate the
+                                                                            resources needed for running their future experiments; the
+The tables show, for each project, the raw count and percentage             original BugsInPy paper did not include these running times.
+of outcomes for all bugs in that project. The last, summary                 The provided running times are specific to the reproduction
+rows show the raw count and percentage of outcomes for all                  procedure on the given VM configuration, which had 4 cores of
+bugs in the BugsInPy dataset.                                               CPU AMD Ryzen 5 3600, 8GB of RAM, and 100GB of free
+                                                                            disk space. Reproduction times can vary depending on hardware
+                                        TABLE I                             resources, system configurations, and other environmental
+REPRODUCTION OF BUGS IN BUGSINPY WITHOUT OUR MODIFICATIONS                  factors. The projects are sorted based on their running time in
+                                                                            descending order, with the project pandas having the highest
+Project                Err  B-pass    B-fail            Exp          Total  running time of 963 minutes, followed by luigi, scrapy,
+                                                                            and so on.
+PySnooper        2 (67%)    0 (0%)   0 (0%)        1 (33%)      3 (100%)
+ansible          3 (17%)    0 (0%)   0 (0%)      15 (83%)     18 (100%)                               TABLE III
+black                       0 (0%)   0 (0%)      22 (96%)     23 (100%)     REPRODUCTION TIME FOR BUGS IN EACH PROJECT
+cookiecutter      1 (4%)    0 (0%)   0 (0%)
+fastapi          2 (50%)    0 (0%)   0 (0%)        2 (50%)      4 (100%)    Project       Running Time (minutes)
+httpie            0 (0%)    0 (0%)   0 (0%)     16 (100%)     16 (100%)
+keras            4 (80%)    0 (0%)   0 (0%)                     5 (100%)    pandas                                 963
+luigi          14 (31%)     0 (0%)   0 (0%)        1 (20%)    45 (100%)     luigi                                  510
+matplotlib    33 (100%)     0 (0%)   0 (0%)      31 (69%)     33 (100%)     scrapy                                 268
+pandas         29 (97%)     0 (0%)   0 (0%)                   30 (100%)     keras                                  230
+sanic          47 (28%)     0 (0%)   0 (0%)         0 (0%)   169 (100%)     black                                  214
+scrapy         5 (100%)     0 (0%)   0 (0%)         1 (3%)      5 (100%)    fastapi                                197
+spacy          11 (28%)     0 (0%)   0 (0%)     122 (72%)     40 (100%)     thefuck                                195
+thefuck          2 (20%)    0 (0%)   0 (0%)         0 (0%)    10 (100%)     sanic                                  136
+tornado          8 (25%)    0 (0%)   0 (0%)      29 (72%)     32 (100%)     spacy                                  131
+tqdm              1 (6%)    0 (0%)   0 (0%)        8 (80%)    16 (100%)     ansible                                  80
+youtube-dl       2 (22%)    0 (0%)   0 (0%)      24 (75%)       9 (100%)    tqdm
+                  0 (0%)                         15 (94%)     43 (100%)     youtube-dl                               36
+Total                       0 (0%)   0 (0%)        7 (78%)                  cookiecutter                             59
+              164 (33%)                         43 (100%)    501 (100%)     httpie                                   40
+                                                                            matplotlib                               39
+                                                337 (67%)                   tornado                                  26
+                                                                            pysnooper                                14
+RQ1. We can reproduce 67% of the expected results in
+the unmodified BugsInPy dataset.                                                                                      5
+
+                              TABLE II
+REPRODUCTION OF BUGS IN BUGSINPY AFTER RESCUING
+
+Project             Err      B-pass     B-fail          Exp          Total                             IV. DISCUSSION
+
+PySnooper     1 (33%)        0 (0%)  1 (33%)       1 (33%)      3 (100%)    A. What makes reproduction easy?
+ansible        0 (0%)        0 (0%)   0 (0%)    18 (100%)     18 (100%)
+black          0 (0%)        0 (0%)   1 (4%)     22 (96%)     23 (100%)     The ease of bug reproduction in the BugsInPy dataset can be
+cookiecutter   0 (0%)        0 (0%)   0 (0%)     4 (100%)                   attributed to several factors:
+fastapi        0 (0%)        0 (0%)   0 (0%)    16 (100%)       4 (100%)
+httpie         0 (0%)        0 (0%)   0 (0%)     5 (100%)     16 (100%)        1. Automation: Our bugsinpy-testall script pro-
+keras          3 (7%)        0 (0%)   1 (2%)     41 (91%)       5 (100%)           vides an automated approach to reproducing and testing
+luigi          0 (0%)       6 (18%)   0 (0%)     27 (82%)     45 (100%)            all bugs in all projects included in the BugsInPy dataset.
+matplotlib    3 (10%)        1 (3%)   0 (0%)                  33 (100%)            The script streamlines the overall reproduction process,
+pandas         4 (2%)        0 (0%)   0 (0%)     26 (87%)     30 (100%)            minimizes manual effort, and ensures we use a consistent
+sanic          0 (0%)        0 (0%)   0 (0%)    165 (98%)    169 (100%)            procedure on each project. The script also allows to select
+scrapy         0 (0%)        2 (5%)   0 (0%)     5 (100%)       5 (100%)
+spacy                        0 (0%)   0 (0%)     38 (95%)     40 (100%)
+thefuck       1 (10%)        0 (0%)   0 (0%)                  10 (100%)
+tornado        0 (0%)        0 (0%)   0 (0%)       9 (90%)    32 (100%)
+tqdm           0 (0%)        0 (0%)   0 (0%)    32 (100%)     16 (100%)
+youtube-dl     0 (0%)        0 (0%)   0 (0%)    16 (100%)       9 (100%)
+               0 (0%)                            9 (100%)     43 (100%)
+Total                        9 (2%)   3 (1%)    43 (100%)
+              12 (2%)                                        501 (100%)
+                                                477 (95%)
+       reproduction of only some of the bugs in some of the               a container, a Conda lockfile, Spack lockfile, or other
+       projects. The automation script must be carefully written          detailed environment specification.
+       and maintained to handle various possible errors. For          3. Archival storage: Ensure that the artifact repository
+       example, the original script did not have set -e, so               is archived in long-term storage, such as Zenodo or
+       some intermediate step may fail without alerting the user.         FigShare, so it does not disappear. For example, some
+   2. Environment/package manager: The Conda environ-                     of our non-reproducible bugs are due to dependency
+       ment/package manager simplifies the management of                  versions that are not available, including flake8 project
+       project dependencies. The crucial insight is that Conda            that moved from GitLab to GitHub [13].
+       can install packages in a local environment without
+       interfering with global, system-wide packages. Conda        D. Threats to Validity
+       makes it possible to define project-specific versions of
+       libraries that a platform-specific system-wide package      Some of the bugs that we find unreproducible could be actually
+       manager would normally manage.                              reproduced with more effort than we expanded. Our effort may
+   3. Lack of non-deterministic bugs: All bugs in the              reflect an "average" user with limited resources, not a researcher
+       BugsInPy dataset are supposed to be deterministic. Our      with much more available time and resources.
+       scope is limited to constructing a reproducible software
+       environment consistent with the original bug, where the     While we show how to increase reproducibility of the BugsInPy
+       bug can manifest itself deterministically.                  dataset, our own work may not be reproducible for the following
+                                                                   reasons:
+These factors collectively contribute to the ease of reproducing
+bugs in the BugsInPy dataset, providing a reliable and efficient      1. Although we pin the exact version of our Docker base
+dataset for bug analysis and investigation.                               image, the image location (DockerHub) may stop hosting
+                                                                          this base image (e.g., goes out of business, ends free tier).
+B. What makes reproduction hard?                                          In this case, one would need to change the base image,
+                                                                          but it could still work, so long as that base image has
+Despite the easy-to-reproduce factors mentioned above, bug                Conda. We find that Conda is still able to easily install
+reproduction can still present challenges due to the following            rather old versions of Python.
+factors:
+                                                                      2. Conda package repositories can stop existing (e.g., if
+   1. Resource constraints during building: The software                  Anaconda goes out of business), or they can drop the
+       environment can involve a computationally expensive                old package versions that our scripts use. However, the
+       step of building software from source code. Reproducing            definition of Conda packages describes how to build the
+       and testing many bugs within limited resources may                 packages from source code. The package definitions are
+       result in longer reproduction times and potential resource         smaller than the binaries, so these package definitions
+       limitations. Our script creates many Conda environments.           may remain longer.
+       These environments can be expensive to store, and we
+       cannot, for example, archive our environments in GitHub        3. The reseachers trying to reproduce the results may need
+       due to space constraints.                                          more computational resources to do the reproduction in
+                                                                          a timely manner. We reduce the resource demands by
+   2. Missing packages in Conda: Unfortunately, not all                   reusing Conda environments. Furthermore, our scripts
+       Pip packages and versions exist in our selected Conda              support reproducing just one project or just one bug from
+       repositories.                                                      one project.
+
+Addressing these challenges requires careful consideration of                                 V. CONCLUSION
+project-specific factors and may involve additional research,
+debugging techniques, and resources to ensure accurate and         The study presented in this paper demonstrates the effectiveness
+reliable bug reproduction.                                         of the BugsInPy dataset in reproducing and testing bugs in
+                                                                   Python projects. The original BugsInPy dataset included highly
+C. Recommendations to Python artifact authors                      useful information that aids in reproduction of these bugs, but
+                                                                   the scripts had some issues that limited reproduction to 67%
+For authors providing Python research artifacts, the following     of the bugs in our experiments, before our modifications. Our
+recommendations can enhance the reproducibility of their           modifications, embodied in the automated approach provided
+artifacts:                                                         by our bugsinpy-testall script, coupled with the use of
+                                                                   Conda for dependency management and Dockerfile for building
+   1. Make it automatic/easy to use: The BugsInPy dataset          images/containers, streamline the bug reproduction process and
+       has Python versions, but there is no automation to switch   enhance its ease. The high success rate in reproducing bugs,
+       to a specific version, so users are unlikely to do so. Our  with over 95% of bugs reproduced, indicates the reliability
+       improved version uses Conda to switch to the correct        and accuracy that our modifications provided to the BugsInPy
+       Python version automatically.                               dataset. Our approach could be useful not only for BugsInPy
+                                                                   but possibly also for other bug datasets to validate the reliability
+   2. requirements.txt is not enough: Pip cannot han-              and accuracy in a more user friendly manner.
+       dle library dependencies. Researchers should provide
+However, our experiments still depend on commercial orga-             [6] S. Lukasczyk, F. Kroiﬂ, and G. Fraser, "An empirical
+nizations continuing to store software for free (GitHub, PyPI,               study of automated unit test generation for python,"
+Anaconda, DockerHub). Challenges still exist in creating a                   Empirical Software Engineering, vol. 28, no. 2, p. 36,
+truly long-term reproducible software environment.                           Mar. 2023, ISSN: 1382-3256, 1573-7616. DOI: 10.1007
+                                                                             /s10664-022-10248-w. [Online]. Available: https://link.s
+                     VI. ACKNOWLEDGMENTS                                     pringer.com/10.1007/s10664-022-10248-w (visited on
+                                                                             07/17/2023).
+We thank Asif Zubayer Palak, Md. Wahiduzzaman, Mehzabin
+Haque, Rohit Naidu, Sugam Adhikari and Vedant Rathi for               [7] A. I. staff. "Artifact review and badging." (Aug. 24,
+comments on an earlier draft of this paper and the initial help              2020), [Online]. Available: https://www.acm.org/pub
+in reproducing some bugs from BugsInPy. This work was                        lications/policies/artifact- review- and- badging- current
+partially supported by NSF grants CCF-1763788 and CCF-                       (visited on 01/19/2023).
+1956374. We also acknowledge support for research on flaky
+tests from Google and Meta.                                           [8] "Faustinoaq/bugsinpy-testall - docker image -- docker
+                                                                             hub." (), [Online]. Available: https://hub.docker.com/r/f
+                             REFERENCES                                      austinoaq/bugsinpy-testall (visited on 07/17/2023).
+
+ [1] R. Widyasari, S. Q. Sim, C. Lok, et al., "BugsInPy:              [9] "Cmdoption-no-binary - pip install - pip documentation
+        A database of existing bugs in python programs to                    v23.2." (), [Online]. Available: https://pip.pypa.io/en/s
+        enable controlled testing and debugging studies," in                 table/cli/pip install/#cmdoption-no-binary (visited on
+        Proceedings of the 28th ACM Joint Meeting on European                07/17/2023).
+        Software Engineering Conference and Symposium on the
+        Foundations of Software Engineering, ser. ESEC/FSE           [10] "Installing packages -- python packaging user guide."
+        2020, New York, NY, USA: Association for Computing                   (), [Online]. Available: https://packaging.python.org/en/l
+        Machinery, Nov. 8, 2020, pp. 1556≠1560, ISBN: 978-1-                 atest/tutorials/installing-packages/#installing-from-pypi
+        4503-7043-1. DOI: 10.1145/3368089.3417943. [Online].                 (visited on 07/17/2023).
+        Available: https://doi.org/10.1145/3368089.3417943
+        (visited on 07/08/2023).                                     [11] "Installation -- matplotlib 3.7.2 documentation." (),
+                                                                             [Online]. Available: https://matplotlib.org/stable/use
+ [2] E. N. Akimova, A. Y. Bersenev, A. A. Deikov, et al., "A                 rs/installing/index.html (visited on 07/17/2023).
+        survey on software defect prediction using deep learning,"
+        Mathematics, vol. 9, no. 11, p. 1180, May 24, 2021,          [12] "Fixes -e option requires 1 argument. by faustinoaq ∑ pull
+        ISSN: 2227-7390. DOI: 10.3390/math9111180. [Online].                 request #68 ∑ soarsmu/BugsInPy," GitHub. (), [Online].
+        Available: https://www.mdpi.com/2227-7390/9/11/1180                  Available: https://github.com/soarsmu/BugsInPy/pull/68
+        (visited on 07/17/2023).                                             (visited on 07/17/2023).
+
+ [3] S. Mukherjee, A. Almanza, and C. Rubio-Gonza¥lez, "Fix-         [13] "4.0.0 ≠ 2021-10-10 -- flake8 6.1.0 documentation." (),
+        ing dependency errors for python build reproducibility,"             [Online]. Available: https://flake8.pycqa.org/en/latest/rel
+        in Proceedings of the 30th ACM SIGSOFT International                 ease-notes/4.0.0.html (visited on 08/23/2023).
+        Symposium on Software Testing and Analysis, Virtual
+        Denmark: ACM, Jul. 11, 2021, pp. 439≠451, ISBN:                                             APPENDIX
+        978-1-4503-8459-9. DOI: 10.1145/3460319.3464797.                             CODE, DATA, AND REPRODUCING
+        [Online]. Available: https://dl.acm.org/doi/10.1145/3460
+        319.3464797 (visited on 07/17/2023).                         A rolling release of all our code and data can be found at
+                                                                     https://github.com/reproducing-research-projects/BugsInPy.
+ [4] T. Hirsch and B. Hofer, "A systematic literature review
+        on benchmarks for evaluating debugging approaches,"          Our code includes:
+        Journal of Systems and Software, vol. 192, p. 111 423,
+        Oct. 2022, ISSN: 01641212. DOI: 10.1016/j.jss.2022              ∑ Dockerfile docker file setup to build projects images.
+        .111423. [Online]. Available: https://linkinghub.elsev          ∑ docker-compose.yml orchestration to run containers.
+        ier.com/retrieve/pii/S0164121222001303 (visited on              ∑ framework/bin/bugsinpy-testall script to au-
+        07/17/2023).
+                                                                           tomate execution of BugsInPy framework scripts.
+ [5] M. Smytzek and A. Zeller, "SFLKit: A workbench for
+        statistical fault localization," in Proceedings of the 30th  To reproduce all bugs in a project, for example httpie, run:
+        ACM Joint European Software Engineering Conference
+        and Symposium on the Foundations of Software En-             $rm -f projects/bugsinpy-index.csv
+        gineering, Singapore Singapore: ACM, Nov. 7, 2022,           $docker compose up setup httpie --build
+        pp. 1701≠1705, ISBN: 978-1-4503-9413-0. DOI: 10.1            Cleaning up temp folder ...
+        145/3540250.3558915. [Online]. Available: https://d          Reproducing bugs please wait ...
+        l.acm.org/doi/10.1145/3540250.3558915 (visited on            -------------------------
+        07/17/2023).                                                 httpie,1,buggy,fail
+                                                                     ...
+
+                                                                     After these commands, the new results will be in the file
+                                                                     named bugsinpy-index.csv. See README.md for more
+                                                                     detailed information.
+
