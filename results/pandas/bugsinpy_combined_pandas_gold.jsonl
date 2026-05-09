@@ -1,0 +1,2 @@
+{"bug_id": "pandas/1", "project": "pandas", "bug_num": 1, "gold_test_pass": false, "gold_test_status": "compile_failed", "stderr_tail": "compile failed; see /tmp/bugsinpy_logs/pandas_1.log\nbugsinpy-compile rc=0, flag_exists=False\nThis is not a checkout project folder\n", "stage": "compile_failed"}
+{"bug_id": "pandas/6", "project": "pandas", "bug_num": 6, "gold_test_pass": false, "gold_test_status": "file_missing", "stderr_tail": "pandas/core/groupby/grouper.py not in checkout", "stage": "file_missing"}

@@ -60,7 +60,7 @@ Write-Host "  bugsinpy_envs + bugsinpy_work ready" -ForegroundColor Green
 
 # ---- 5. Required input files ----
 Write-Host "`n[pre-run] Verifying required input files..." -ForegroundColor Yellow
-$Inference = "results/snakellama_model_generations/bugsinpy_snakellama_run3.jsonl"
+$Inference = "results/snakellama/bugsinpy_snakellama_generations.jsonl"
 $Eval = "data/bugsinpy_eval_verified.jsonl"
 foreach ($f in @($Inference, $Eval)) {
     if (-not (Test-Path $f)) {
@@ -72,23 +72,22 @@ foreach ($f in @($Inference, $Eval)) {
 Write-Host "  All inputs present" -ForegroundColor Green
 
 # ---- 6. Launch pandas orchestrator ----
+$Prefix = "bugsinpy_snakellama_pandas"
+$DockerArtifacts = "results\all_docker_runs_result"
 Write-Host "`n[5/5] Launching 4-way pandas plausibility run..." -ForegroundColor Yellow
 Write-Host "  ETA: ~6h on a typical workstation (45 bugs split 4-way)." -ForegroundColor DarkYellow
-Write-Host "  Per-worker logs in results\snakellama_full\pandas_worker{1..4}.log" -ForegroundColor DarkYellow
+Write-Host "  Per-worker logs in $DockerArtifacts\${Prefix}_worker{1..4}.log" -ForegroundColor DarkYellow
 Write-Host ""
 
 $env:MSYS_NO_PATHCONV = "1"
-python scripts\run_pandas_4workers.py `
-    --eval "/work/$Eval" `
-    --inference "/work/$Inference" `
-    --out-dir "results\snakellama_full"
+python scripts\run_pandas_4workers.py --model snakellama
 
 # ---- 7. Final report ----
 Write-Host "`n=== FINAL REPORT ===" -ForegroundColor Cyan
 $report = @"
 import json, glob, collections
 runnable = set(); evald = set()
-for f in sorted(glob.glob('results/snakellama_full/pandas_gold_part*.jsonl')):
+for f in sorted(glob.glob('$DockerArtifacts/${Prefix}_gold_part*.jsonl'.replace(chr(92), '/'))):
     with open(f, encoding='utf-8') as fh:
         for l in fh:
             if l.strip():
@@ -97,7 +96,7 @@ for f in sorted(glob.glob('results/snakellama_full/pandas_gold_part*.jsonl')):
                 if r['gold_test_status'] == 'pass':
                     runnable.add(r['bug_id'])
 gp = collections.Counter()
-for f in sorted(glob.glob('results/snakellama_full/pandas_gen_part*.jsonl')):
+for f in sorted(glob.glob('$DockerArtifacts/${Prefix}_gen_part*.jsonl'.replace(chr(92), '/'))):
     with open(f, encoding='utf-8') as fh:
         for l in fh:
             if l.strip():
@@ -114,4 +113,6 @@ for b, n in sorted(gp.items(), key=lambda x: (-x[1], x[0])):
     print(f'  {b:25s} {n}/10')
 "@
 python -c $report
-Write-Host "`nDone. Send back the results\snakellama_full\pandas_*.jsonl files." -ForegroundColor Green
+Write-Host "`nDone. Send back:" -ForegroundColor Green
+Write-Host "  - $DockerArtifacts\${Prefix}_*.jsonl (per-worker artifacts + merged gold)" -ForegroundColor Green
+Write-Host "  - results\snakellama\bugsinpy_snakellama_pandas_plausibility.jsonl (merged gen)" -ForegroundColor Green

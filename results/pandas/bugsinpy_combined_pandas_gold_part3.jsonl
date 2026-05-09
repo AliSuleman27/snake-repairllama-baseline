@@ -1,0 +1,1 @@
+{"bug_id": "pandas/6", "project": "pandas", "bug_num": 6, "gold_test_pass": false, "gold_test_status": "file_missing", "stderr_tail": "pandas/core/groupby/grouper.py not in checkout", "stage": "file_missing"}

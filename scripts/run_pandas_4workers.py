@@ -4,11 +4,19 @@ run_pandas_4workers.py
 ======================
 Pandas-only 4-way parallel runner. Splits the 45 pandas bugs across 4
 docker workers (round-robin by bug_id), runs them in parallel, then
-merges results into:
-  results/snakellama_full/pandas_gen_part{1..4}.jsonl
-  results/snakellama_full/pandas_gold_part{1..4}.jsonl
-  results/snakellama_full/pandas_merged_gen.jsonl
-  results/snakellama_full/pandas_merged_gold.jsonl
+merges results.
+
+Output layout (matches the restructured results/ tree):
+  results/all_docker_runs_result/                          <- per-worker
+    bugsinpy_<model>_pandas_gen_part{1..4}.jsonl
+    bugsinpy_<model>_pandas_gold_part{1..4}.jsonl
+    bugsinpy_<model>_pandas_worker{1..4}.log
+    bugsinpy_<model>_pandas_gold.jsonl                     <- merged gold
+  results/<model_folder>/
+    bugsinpy_<model>_pandas_plausibility.jsonl             <- merged gen
+
+Default --model is snakellama; pass --model {kimi,gemini,codellama} to
+run pandas against another model's generations.
 
 Usage (host):
   python scripts/run_pandas_4workers.py
@@ -26,9 +34,17 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = REPO_ROOT / "results"
-DEFAULT_INFERENCE = "/work/results/snakellama_model_generations/bugsinpy_snakellama_run3.jsonl"
+DOCKER_ARTIFACTS_DIR = RESULTS_DIR / "all_docker_runs_result"
 DEFAULT_EVAL = "/work/data/bugsinpy_eval_verified.jsonl"
-DEFAULT_OUTPUT_SUBDIR = RESULTS_DIR / "snakellama_full"
+
+# Maps --model to (per-model folder, generation filename) — must stay in sync
+# with run_bugsinpy_4workers.py::MODEL_LAYOUT.
+MODEL_LAYOUT = {
+    "snakellama":      ("snakellama",         "bugsinpy_snakellama_generations.jsonl"),
+    "codellama":       ("codellama-baseline", "bugsinpy_codellama_generations.jsonl"),
+    "kimi":            ("kimi-moonshot",      "bugsinpy_kimi_generations_aligned.jsonl"),
+    "gemini":          ("gemini-2.5-flash",   "bugsinpy_gemini_generations_aligned.jsonl"),
+}
 
 
 def windows_repo_path() -> str:
@@ -92,13 +108,35 @@ def merge_jsonl(parts: list[Path], out: Path) -> int:
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--model", default="snakellama", choices=sorted(MODEL_LAYOUT.keys()),
+                    help="Which model's generations to evaluate. Drives default "
+                         "--inference, --prefix, and merged-output paths.")
     ap.add_argument("--eval-host", default=str(REPO_ROOT / "data" / "bugsinpy_eval_verified.jsonl"))
     ap.add_argument("--eval", default=DEFAULT_EVAL)
-    ap.add_argument("--inference", default=DEFAULT_INFERENCE)
-    ap.add_argument("--out-dir", default=str(DEFAULT_OUTPUT_SUBDIR))
+    ap.add_argument("--inference", default=None,
+                    help="Container-side path to the model's generations JSONL. "
+                         "Defaults to /work/results/<folder>/<file> based on --model.")
+    ap.add_argument("--out-dir", default=str(DOCKER_ARTIFACTS_DIR),
+                    help="Directory for per-worker part files, logs, and merged "
+                         "GOLD jsonl. Default: results/all_docker_runs_result/.")
+    ap.add_argument("--prefix", default=None,
+                    help="Prefix for per-worker artifacts. "
+                         "Default: bugsinpy_<model>_pandas.")
+    ap.add_argument("--gen-out", default=None,
+                    help="Override merged gen (plausibility) path. "
+                         "Default: results/<folder>/bugsinpy_<model>_pandas_plausibility.jsonl.")
+    ap.add_argument("--gold-out", default=None,
+                    help="Override merged gold path. "
+                         "Default: <out-dir>/<prefix>_gold.jsonl.")
     ap.add_argument("--n-workers", type=int, default=4)
     ap.add_argument("--merge-only", action="store_true")
     args = ap.parse_args()
+
+    model_folder, gen_filename = MODEL_LAYOUT[args.model]
+    if args.prefix is None:
+        args.prefix = f"bugsinpy_{args.model}_pandas"
+    if args.inference is None:
+        args.inference = f"/work/results/{model_folder}/{gen_filename}"
 
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
     n = args.n_workers
@@ -119,9 +157,12 @@ def main():
     for i, g in enumerate(groups, 1):
         print(f"  W{i}: {len(g)} bugs ({g[0]} ... {g[-1]})")
 
-    gen_parts = [out_dir / f"pandas_gen_part{i+1}.jsonl" for i in range(n)]
-    gold_parts = [out_dir / f"pandas_gold_part{i+1}.jsonl" for i in range(n)]
-    log_paths = [out_dir / f"pandas_worker{i+1}.log" for i in range(n)]
+    gen_parts = [out_dir / f"{args.prefix}_gen_part{i+1}.jsonl" for i in range(n)]
+    gold_parts = [out_dir / f"{args.prefix}_gold_part{i+1}.jsonl" for i in range(n)]
+    log_paths = [out_dir / f"{args.prefix}_worker{i+1}.log" for i in range(n)]
+
+    # Container-side paths to part files (out_dir is mounted at /work/<rel> inside docker).
+    rel_out = out_dir.resolve().relative_to(REPO_ROOT).as_posix()
 
     if not args.merge_only:
         procs = []
@@ -129,8 +170,8 @@ def main():
         for i, g in enumerate(groups, 1):
             p = launch_worker(
                 i, g, args.eval, args.inference,
-                f"/work/results/snakellama_full/pandas_gen_part{i}.jsonl",
-                f"/work/results/snakellama_full/pandas_gold_part{i}.jsonl",
+                f"/work/{rel_out}/{args.prefix}_gen_part{i}.jsonl",
+                f"/work/{rel_out}/{args.prefix}_gold_part{i}.jsonl",
                 log_paths[i-1],
             )
             procs.append(p)
@@ -145,10 +186,17 @@ def main():
             print("[WARN] some workers exited non-zero", file=sys.stderr)
 
     # Merge
-    n_gen = merge_jsonl(gen_parts, out_dir / "pandas_merged_gen.jsonl")
-    n_gold = merge_jsonl(gold_parts, out_dir / "pandas_merged_gold.jsonl")
-    print(f"\n[merge] gen rows:  {n_gen} -> {out_dir / 'pandas_merged_gen.jsonl'}")
-    print(f"[merge] gold rows: {n_gold} -> {out_dir / 'pandas_merged_gold.jsonl'}")
+    default_gen_out = (RESULTS_DIR / model_folder
+                       / f"bugsinpy_{args.model}_pandas_plausibility.jsonl")
+    gen_out = Path(args.gen_out) if args.gen_out else default_gen_out
+    gold_out = Path(args.gold_out) if args.gold_out else out_dir / f"{args.prefix}_gold.jsonl"
+    gen_out.parent.mkdir(parents=True, exist_ok=True)
+    gold_out.parent.mkdir(parents=True, exist_ok=True)
+
+    n_gen = merge_jsonl(gen_parts, gen_out)
+    n_gold = merge_jsonl(gold_parts, gold_out)
+    print(f"\n[merge] gen rows:  {n_gen} -> {gen_out}")
+    print(f"[merge] gold rows: {n_gold} -> {gold_out}")
 
 
 if __name__ == "__main__":

@@ -29,9 +29,12 @@ Host launch (PowerShell):
       bugsinpy-setup:latest `
       python /work/scripts/bugsinpy_run_eval.py `
           --eval /work/data/bugsinpy_eval_verified.jsonl `
-          --inference /work/results/bugsinpy_snakellama_run3.jsonl `
-          --output /work/results/bugsinpy_run3_gen.jsonl `
-          --gold-output /work/results/bugsinpy_run3_gold.jsonl
+          --inference /work/results/snakellama/bugsinpy_snakellama_generations.jsonl `
+          --output /work/results/all_docker_runs_result/bugsinpy_snakellama_gen_part1.jsonl `
+          --gold-output /work/results/all_docker_runs_result/bugsinpy_snakellama_gold_part1.jsonl
+
+(Normally invoked indirectly via run_bugsinpy_4workers.py or run_pandas_4workers.py
+— those orchestrators pick the right paths from --model.)
 """
 from __future__ import annotations
 

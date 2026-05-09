@@ -41,15 +41,22 @@ That's it. The script:
 
 ## What to send back
 
-After the run completes, send back the contents of:
+After the run completes, send back:
 
 ```
-results/snakellama_full/pandas_merged_gold.jsonl
-results/snakellama_full/pandas_merged_gen.jsonl
+results/all_docker_runs_result/bugsinpy_snakellama_pandas_gold.jsonl
+results/all_docker_runs_result/bugsinpy_snakellama_pandas_gen_part{1..4}.jsonl
+results/all_docker_runs_result/bugsinpy_snakellama_pandas_gold_part{1..4}.jsonl
+results/snakellama/bugsinpy_snakellama_pandas_plausibility.jsonl
 ```
 
-Or just zip the whole `results/snakellama_full/` directory — also includes
-per-worker logs which are useful for debugging.
+Or just zip these two directories — they also include per-worker logs which
+are useful for debugging:
+
+```
+results/all_docker_runs_result/bugsinpy_snakellama_pandas_*
+results/snakellama/bugsinpy_snakellama_pandas_*
+```
 
 ## If something goes wrong
 
@@ -59,8 +66,8 @@ per-worker logs which are useful for debugging.
   Free up space, then run the script again — it's resumable (skips bugs
   already in the part files).
 - **Worker exits with rc=137**: usually OOM kill. Reduce concurrency by
-  editing `WORKERS = [...]` in `scripts/run_pandas_4workers.py` to 2 instead
-  of 4.
+  passing `--n-workers 2` to `scripts/run_pandas_4workers.py` (or edit the
+  ps1 wrapper to call it that way).
 - **Network drop during conda install**: re-run; resume picks up.
 
 ## What to NOT do
