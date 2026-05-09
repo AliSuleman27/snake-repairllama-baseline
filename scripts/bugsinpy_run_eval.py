@@ -393,6 +393,9 @@ def main():
     ap.add_argument("--timeout-test", type=int, default=180)
     ap.add_argument("--projects", default=None,
                     help="Comma-separated project names (e.g. thefuck,httpie)")
+    ap.add_argument("--bug-ids", default=None,
+                    help="Comma-separated bug_ids to restrict to (e.g. pandas/1,pandas/2). "
+                         "Applied AFTER --projects filter.")
     ap.add_argument("--limit", type=int, default=None,
                     help="Process at most N bugs (after project filter)")
     ap.add_argument("--no-keep-work-dirs", action="store_true",
@@ -422,6 +425,9 @@ def main():
     if args.projects:
         wanted = {p.strip() for p in args.projects.split(",")}
         todo = [r for r in todo if eval_idx[r["bug_id"]]["project"] in wanted]
+    if args.bug_ids:
+        wanted_ids = {b.strip() for b in args.bug_ids.split(",")}
+        todo = [r for r in todo if r["bug_id"] in wanted_ids]
     if args.limit:
         todo = todo[: args.limit]
 
