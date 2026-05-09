@@ -1,0 +1,400 @@
+{"bug_id": "quixbugs/bitcount", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bitcount", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/breadth_first_search", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/bucketsort", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpt369xzqh.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp19agqntp.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpb3chkkg3.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp1aj89lpw.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpd5xpz_ep.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpmp32zl3j.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp2cn7q0jo.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpcunodhts.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpyshay163.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/depth_first_search", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpoxqlwqw9.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    return any(\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/detect_cycle", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_first_in_sorted", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/find_in_sorted", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/flatten", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/gcd", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/get_factors", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/hanoi", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/is_valid_parenthesization", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kheapsort", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/knapsack", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/kth", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lcs_length", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/levenshtein", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/lis", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/longest_common_subsequence", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/max_sublist_sum", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/mergesort", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/minimum_spanning_tree", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 5, "compile_pass": true, "test_pass": false, "test_status": "fail", "stderr": "Traceback (most recent call last):\n  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpd_44ct6v.py\"\u001b[0m, line \u001b[35m45\u001b[0m, in \u001b[35m<module>\u001b[0m\n    assert \u001b[1;31mnext_palindrome(*[[9, 9, 9]]) == [1, 0, 0, 1]\u001b[0m\n           \u001b[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n\u001b[1;35mAssertionError\u001b[0m\n"}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_palindrome", "gen_idx": 9, "compile_pass": true, "test_pass": false, "test_status": "fail", "stderr": "Traceback (most recent call last):\n  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp4ctn4cgb.py\"\u001b[0m, line \u001b[35m45\u001b[0m, in \u001b[35m<module>\u001b[0m\n    assert \u001b[1;31mnext_palindrome(*[[9, 9, 9]]) == [1, 0, 0, 1]\u001b[0m\n           \u001b[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n\u001b[1;35mAssertionError\u001b[0m\n"}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/next_permutation", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/pascal", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmptu05ugk_.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpp5wekccg.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpromupm6l.py\"\u001b[0m, line \u001b[35m24\u001b[0m\n    if not coins and total > 0:\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpr1s8lxjy.py\"\u001b[0m, line \u001b[35m24\u001b[0m\n    if not coins and total > 0:\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpdbq9pa4m.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpxixk9kc2.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpfzxb93r0.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpc_rlc1xx.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp7_7v3rh7.py\"\u001b[0m, line \u001b[35m24\u001b[0m\n    if not coins and total > 0:\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/possible_change", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpg9xutvgs.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    first, *rest = coins\u001b[1;31m\u001b[0m\n                        \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpsmdj9t1p.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpksobdsvt.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpmpsuz3h7.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp_12mwozj.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpisixxdvp.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp7di1hirc.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp2xc7wuw7.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpa69gzzvk.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmppgprthx0.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/powerset", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp89z4rjl4.py\"\u001b[0m, line \u001b[35m26\u001b[0m\n    rest_subsets = powerset(rest)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/quicksort", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpw0tfx_it.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpgbeof5vm.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpzrah6oaq.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp5pi8q1u4.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmptox6e6ti.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp2hvc29_j.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpz7qwunjl.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpfvyo8ql5.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpjy0gzqzf.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/reverse_linked_list", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmprlva1ai_.py\"\u001b[0m, line \u001b[35m28\u001b[0m\n    node.successor = prevnode\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/rpn_eval", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_length", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_path_lengths", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shortest_paths", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpoi4y99cp.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpkpekagmy.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpfqul25ah.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpoeqh3wg7.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp2em0og17.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpcdeqhjla.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpu2jswzqr.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp1ryp5j16.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmplb7saamn.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/shunting_yard", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpooe9w0mx.py\"\u001b[0m, line \u001b[35m40\u001b[0m\n    rpntokens.append(opstack.pop())\u001b[1;31m\u001b[0m\n                                   \u001b[1;31m^\u001b[0m\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munindent does not match any outer indentation level\u001b[0m\n"}
+{"bug_id": "quixbugs/sieve", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sieve", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/sqrt", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/subsequences", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/to_base", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 0, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 1, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 2, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 3, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 4, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 5, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 6, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 7, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 8, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/topological_ordering", "gen_idx": 9, "compile_pass": true, "test_pass": true, "test_status": "pass", "stderr": ""}
+{"bug_id": "quixbugs/wrap", "gen_idx": 0, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpjcluuq7f.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 1, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp3_ma3ag6.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 2, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpq9x2j65u.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 3, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmphu8dg9xa.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 4, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp7sexk9ss.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 5, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpsbw64wpz.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 6, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpt7hgikr8.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 7, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpkc4r9bc4.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 8, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmp8khpc3zy.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
+{"bug_id": "quixbugs/wrap", "gen_idx": 9, "compile_pass": false, "test_pass": false, "test_status": "compile", "stderr": "  File \u001b[35m\"C:\\Users\\3TEE\\AppData\\Local\\Temp\\tmpjrgef5mb.py\"\u001b[0m, line \u001b[35m32\u001b[0m\n    lines.append(text)\n\u001b[1;35mIndentationError\u001b[0m: \u001b[35munexpected indent\u001b[0m\n"}
