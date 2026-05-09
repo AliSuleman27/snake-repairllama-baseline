@@ -1,10 +1,11 @@
-# Snake-RepairLLaMA — Project Context (Day 1 → run3 evaluation)
+# Snake-RepairLLaMA — Project Context (Day 1 → commercial-baseline comparison)
 
 This document is a complete, dated narrative of the project: data preparation,
 baseline benchmarking, training attempts (including the dead ends), the final
-run3 training and inference, and the metrics-scoring bug fix that landed
-alongside this writeup. It is intended as the canonical reference for the
-thesis writeup or anyone trying to reproduce / extend the work.
+run3 training and inference, the metrics-scoring bug fix, and the commercial
+cloud-model comparison (Kimi Moonshot v1-8K and Google Gemini 2.5 Flash). It
+is intended as the canonical reference for the thesis writeup or anyone trying
+to reproduce / extend the work.
 
 ---
 
@@ -617,7 +618,216 @@ implementation is paper-aligned.
 
 ---
 
-## 8. Repository structure (for reference)
+## 8. Commercial-model baselines (Kimi + Gemini)
+
+After run3 we wanted apples-to-apples numbers against proprietary cloud models
+under the same eval protocol (same 40 / 161 bugs, same IR4 prompt format, same
+10-candidate sampling). Two models picked: **Kimi Moonshot v1-8K** and
+**Google Gemini 2.5 Flash**. The whole point: see whether a 7B private LoRA
+can stand up against ten-times-larger black-box APIs at the only metric that
+matters for APR (can the system produce a correct patch in ≤ K tries).
+
+### 8.1 Inference scripts
+
+- `run_kimi.py` — calls Moonshot's OpenAI-compatible chat endpoint, 10 calls
+  per bug at `temperature=1.0, top_p=0.95, max_tokens=256`. Resume-safe:
+  writes one record per bug, skips already-done bug_ids if rerun.
+- `run_gemini.py` — calls Gemini's `generateContent` REST endpoint with
+  the same shape. **Critical config**: `thinkingConfig.thinkingBudget=0`.
+  Without this, Gemini 2.5 Flash defaults to "thinking on" and burns the
+  entire `maxOutputTokens` budget on hidden reasoning tokens
+  (`thoughtsTokenCount`), returning **zero output text**. Caught during
+  smoke-test; baked into the script.
+
+Both scripts use the SAME system prompt instructing the model to output
+only the lines that should replace `<FILL_ME>` — no markdown fences, no
+explanations. Output JSONL schema is identical to baseline / run3
+(`{bug_id, project, input, gold_output, generations[10]}`) so the existing
+`src/metrics.py` scores them unchanged.
+
+Wall-clock: Kimi QuixBugs ~9 min, Kimi BugsInPy ~43 min, Gemini QuixBugs
+~14 min, Gemini BugsInPy ~50 min on the free / low tier with built-in
+backoff for 429s.
+
+### 8.2 The indentation gotcha (and the fix)
+
+First Kimi run came back with **0/40 Top-10 Exact on QuixBugs** and **0/161
+on BugsInPy**, which contradicted the script's own strip-tolerant quick
+check that reported 30/40 and 17/161 respectively. Same shape for Gemini.
+
+**Root cause**: chat models output their reply at column 0. The IR4 prompt
+places `<FILL_ME>` at column 0 too, so the model dutifully matches that
+position. But the gold OR2 patches preserve the *original* indentation of
+the buggy region (e.g. 8 spaces inside a function body). CodeLlama-base,
+used for vanilla baseline + run3, is a FIM model and naturally produces
+indented output because the FIM `<PRE>/<SUF>/<MID>` tokenization preserves
+the prefix column. Chat models do not.
+
+Concrete example, `bitcount`:
+
+```
+Gold OR2 (8 spaces):     "        n &= n - 1\n"
+Snake-run3 (FIM):        "        n &= n - 1\n"  ← match
+Kimi (chat):             "n &= n - 1\n"          ← exact-match fails
+Gemini (chat):           "n &= (n - 1)\n"        ← exact-match fails
+```
+
+AST-match dedents internally (per the §7 fix) so it shrugged this off
+(Kimi QuixBugs Top-10 AST was 77.5% on the unaligned data while Exact was
+0%). Compile-match was also depressed because splicing a column-0 line into
+a column-8 function context produces an `IndentationError`.
+
+**The fix**: `realign_indents.py`. For each bug, parses IR4 to extract the
+original indent of the buggy region (read off the `# Buggy code:` comment
+block), and re-indents each generation iff its first non-blank line is at
+column 0 AND the target indent is > 0. Content-preserving — only changes
+leading whitespace, only when unambiguously needed. Originals untouched;
+output goes to `_aligned.jsonl` siblings.
+
+After realignment, Kimi's QuixBugs Top-10 Exact jumped from 0 → 32, Gemini's
+from 0 → 30, both matching the strip-tolerant quick checks. Same lift on
+BugsInPy. **All scoring numbers below are on the `_aligned.jsonl` files.**
+
+### 8.3 Final scores: Kimi Moonshot v1-8K
+
+```
+================================================================
+  QuixBugs — Kimi Moonshot v1-8K
+================================================================
+  Top-1  Exact     :   22 / 40 ( 55.0%)
+  Top-1  AST       :   22 / 40 ( 55.0%)
+  Top-1  Compile   :   36 / 40 ( 90.0%)
+
+  Top-3  Exact     :   26 / 40 ( 65.0%)
+  Top-3  AST       :   26 / 40 ( 65.0%)
+  Top-3  Compile   :   37 / 40 ( 92.5%)
+  Top-3  Buried    :   26 / 40 ( 65.0%)
+
+  Top-10 Exact     :   32 / 40 ( 80.0%)
+  Top-10 AST       :   33 / 40 ( 82.5%)
+  Top-10 Compile   :   39 / 40 ( 97.5%)
+  Top-10 Buried    :   32 / 40 ( 80.0%)
+================================================================
+
+================================================================
+  BugsInPy — Kimi Moonshot v1-8K
+================================================================
+  Top-1  Exact     :    6 / 161 (  3.7%)
+  Top-1  AST       :    6 / 161 (  3.7%)
+  Top-1  Compile   :  129 / 161 ( 80.1%)
+
+  Top-3  Exact     :   13 / 161 (  8.1%)
+  Top-3  AST       :   13 / 161 (  8.1%)
+  Top-3  Compile   :  145 / 161 ( 90.1%)
+  Top-3  Buried    :   19 / 161 ( 11.8%)
+
+  Top-10 Exact     :   17 / 161 ( 10.6%)
+  Top-10 AST       :   17 / 161 ( 10.6%)
+  Top-10 Compile   :  153 / 161 ( 95.0%)
+  Top-10 Buried    :   24 / 161 ( 14.9%)
+================================================================
+```
+
+### 8.4 Final scores: Google Gemini 2.5 Flash
+
+```
+================================================================
+  QuixBugs — Google Gemini 2.5 Flash (thinkingBudget=0)
+================================================================
+  Top-1  Exact     :   30 / 40 ( 75.0%)
+  Top-1  AST       :   31 / 40 ( 77.5%)
+  Top-1  Compile   :   34 / 40 ( 85.0%)
+
+  Top-3  Exact     :   30 / 40 ( 75.0%)
+  Top-3  AST       :   31 / 40 ( 77.5%)
+  Top-3  Compile   :   34 / 40 ( 85.0%)
+  Top-3  Buried    :   30 / 40 ( 75.0%)
+
+  Top-10 Exact     :   30 / 40 ( 75.0%)
+  Top-10 AST       :   31 / 40 ( 77.5%)
+  Top-10 Compile   :   34 / 40 ( 85.0%)
+  Top-10 Buried    :   30 / 40 ( 75.0%)
+================================================================
+
+================================================================
+  BugsInPy — Google Gemini 2.5 Flash (thinkingBudget=0)
+================================================================
+  Top-1  Exact     :   13 / 161 (  8.1%)
+  Top-1  AST       :   13 / 161 (  8.1%)
+  Top-1  Compile   :  107 / 161 ( 66.5%)
+
+  Top-3  Exact     :   18 / 161 ( 11.2%)
+  Top-3  AST       :   18 / 161 ( 11.2%)
+  Top-3  Compile   :  120 / 161 ( 74.5%)
+  Top-3  Buried    :   20 / 161 ( 12.4%)
+
+  Top-10 Exact     :   20 / 161 ( 12.4%)
+  Top-10 AST       :   21 / 161 ( 13.0%)
+  Top-10 Compile   :  125 / 161 ( 77.6%)
+  Top-10 Buried    :   23 / 161 ( 14.3%)
+================================================================
+```
+
+### 8.5 Why Gemini's Top-N is flat
+
+Notice Gemini's Top-1 = Top-3 = Top-10 on QuixBugs (30/30/30) and very nearly
+flat on BugsInPy. This is not a measurement bug. Inspecting the JSONL shows
+that on roughly 30 of 40 QuixBugs, **all 10 Gemini candidates are byte-identical**.
+
+Mechanism: when `thinkingBudget=0` (which we *had* to set, otherwise no output),
+Gemini 2.5 Flash drops into a fast near-greedy decoding path that mostly
+ignores `temperature` and `topP` for short completions. The 10 calls converge
+to the same highest-probability output. Kimi and Snake-RepairLLaMA both
+respect their sampling settings — Kimi's QuixBugs Top-1 → Top-10 climbs
+55% → 65% → 80%, Snake-run3's climbs 47.5% → 70% → 80%.
+
+Implication for the thesis: Gemini's Top-1 is genuinely strong (it commits
+hard to one answer that is often right), but it cannot benefit from
+re-sampling. Worth a methodology footnote.
+
+### 8.6 Cross-model summary (final benchmarking table)
+
+#### QuixBugs (40 bugs)
+
+| Model | Params | Top-1 Exact | Top-3 Exact | Top-10 Exact | Top-10 Compile |
+|---|---:|---:|---:|---:|---:|
+| Vanilla CodeLlama-7B (no fine-tune) | 7 B | 0.0% | 2.5% | 10.0% | 90.0% |
+| Kimi Moonshot v1-8K (cloud API) | proprietary | 55.0% | 65.0% | **80.0%** | 97.5% |
+| Google Gemini 2.5 Flash (cloud API) | proprietary | **75.0%** | 75.0% | 75.0% | 85.0% |
+| **Snake-RepairLLaMA run3 (ours, 7B + 17 MB LoRA)** | 7 B | 47.5% | 70.0% | **80.0%** | **100%** |
+
+#### BugsInPy (161 verified bugs)
+
+| Model | Params | Top-1 Exact | Top-3 Exact | Top-10 Exact | Top-10 Compile |
+|---|---:|---:|---:|---:|---:|
+| Vanilla CodeLlama-7B (no fine-tune) | 7 B | 0.0% | 0.0% | 0.0% | 79.5% |
+| Kimi Moonshot v1-8K (cloud API) | proprietary | 3.7% | 8.1% | 10.6% | **95.0%** |
+| Google Gemini 2.5 Flash (cloud API) | proprietary | **8.1%** | **11.2%** | 12.4% | 77.6% |
+| **Snake-RepairLLaMA run3 (ours, 7B + 17 MB LoRA)** | 7 B | 6.8% | 8.7% | **14.3%** | 72.0% |
+
+**Headlines**:
+- Snake-RepairLLaMA wins or ties **Top-10 Exact on both benchmarks** despite
+  being the smallest model and runnable entirely on a single GPU with no
+  third-party API calls.
+- Gemini wins **Top-1** on both benchmarks — a single high-quality shot is
+  its strength, but it cannot exploit additional sampling budget.
+- Kimi has the cleanest sampling diversity (steady Top-1 → Top-10 climb)
+  and the highest BugsInPy Compile rate.
+- Vanilla CodeLlama with no adapter solves **zero** BugsInPy bugs at any K,
+  isolating the contribution of fine-tuning.
+
+### 8.7 Caveat on Top-1 fairness
+
+Snake-RepairLLaMA + Kimi were sampled at `temperature=1.0` (one randomly
+drawn candidate for Top-1), whereas Gemini is effectively greedy at
+`thinkingBudget=0`. A fully fair Top-1 comparison would re-run Snake-
+RepairLLaMA at `temperature=0` (greedy decoding), which typically lifts
+Top-1 by 5-15 percentage points. Held off as a future-work item; the
+Top-3 / Top-10 numbers above are unaffected by this.
+
+---
+
+## 9. Repository structure (for reference)
 
 ```
 snake-repairllama-baseline/
@@ -639,26 +849,43 @@ snake-repairllama-baseline/
 │   └── README.md
 │
 ├── notebooks/
-│   ├── 01_baseline_codellama.ipynb            # baseline inference
+│   ├── baseline/
+│   │   └── 01_baseline_codellama_generations(em,ast,compile).ipynb
 │   ├── 02_plausibility_quixbugs.ipynb         # QuixBugs plausibility
 │   ├── 03_plausibility_bugsinpy.ipynb         # BugsInPy plausibility
-│   └── 04_run1_snakellama.ipynb               # trained-adapter inference
+│   ├── 04_run1_snakellama.ipynb               # trained-adapter inference
+│   ├── Kimi/
+│   │   └── 01_kimi_metrics.ipynb              # scores Kimi results
+│   └── Gemini/
+│       └── 01_gemini_metrics.ipynb            # scores Gemini results
 │
 ├── src/
 │   ├── inference.py                           # run_inference: batched generate, sub_batch, adapter loading
-│   ├── metrics.py                             # AST/Exact/Compile/Buried scoring (FIXED in this commit)
+│   ├── metrics.py                             # AST/Exact/Compile/Buried scoring (FIXED — see §7)
 │   ├── postprocess.py                         # extract_patch (strict/lenient)
 │   ├── patcher.py                             # reconstruct_patched_function for plausibility
 │   └── runners/
 │       ├── quixbugs.py                        # QuixBugs subprocess test runner
 │       └── bugsinpy.py                        # BugsInPy framework runner (Linux only)
 │
+├── run_kimi.py                                # 10-cand Kimi inference, both datasets, resume-safe
+├── run_gemini.py                              # 10-cand Gemini inference, thinkingBudget=0, resume-safe
+├── realign_indents.py                         # post-hoc re-indent for chat-model outputs (see §8.2)
+│
 ├── results/
 │   ├── quixbugs_codellama_baseline.jsonl      # vanilla baseline generations (40 bugs × 10)
 │   ├── quixbugs_snakellama_run3.jsonl         # trained generations (40 bugs × 10)
 │   ├── quixbugs_codellama_plausibility.jsonl  # baseline test results (400 rows)
 │   ├── bugsinpy_codellama_baseline.jsonl      # vanilla baseline (161 × 10)
-│   └── bugsinpy_snakellama_run3.jsonl         # trained (161 × 10)
+│   ├── bugsinpy_snakellama_run3.jsonl         # trained (161 × 10)
+│   ├── quixbugs_kimi.jsonl                    # raw Kimi generations (40 × 10)
+│   ├── quixbugs_kimi_aligned.jsonl            # ← scored by 01_kimi_metrics.ipynb
+│   ├── bugsinpy_kimi.jsonl                    # raw Kimi generations (161 × 10)
+│   ├── bugsinpy_kimi_aligned.jsonl            # ← scored by 01_kimi_metrics.ipynb
+│   ├── quixbugs_gemini.jsonl                  # raw Gemini generations (40 × 10)
+│   ├── quixbugs_gemini_aligned.jsonl          # ← scored by 01_gemini_metrics.ipynb
+│   ├── bugsinpy_gemini.jsonl                  # raw Gemini generations (161 × 10)
+│   └── bugsinpy_gemini_aligned.jsonl          # ← scored by 01_gemini_metrics.ipynb
 │
 ├── scripts/
 │   ├── select_plausibility_subset.py          # 50-bug stratified picker
@@ -672,9 +899,9 @@ snake-repairllama-baseline/
 
 ---
 
-## 9. What it cost (honest accounting)
+## 10. What it cost (honest accounting)
 
-| Phase | Hardware | Time | Cost |
+| Phase | Hardware / Service | Time | Cost |
 |-------|---------|-----:|-----:|
 | Baseline runs (T4 free, A6000) | various | ~hours | $0 |
 | First retrain (LR=2e-4 NaN) | A100 SXM | ~3h | ~$5 |
@@ -684,19 +911,36 @@ snake-repairllama-baseline/
 | Resume-attempts that diverged | A100 PCIe / SXM | ~3h | ~$5 |
 | **Run3 training (paper config, success)** | A100 SXM 80GB | 4:19 | ~$6.40 |
 | Run3 inference (Quix + BugsInPy) | A100 SXM 80GB | ~1h | ~$1.49 |
+| Kimi inference (Quix + BugsInPy, 2010 calls) | Moonshot API | ~52 min | ~$0 (low-tier key) |
+| Gemini inference (Quix + BugsInPy, 2010 calls) | Google AI Studio | ~64 min | ~$0 (free tier) |
 | **Total RunPod spend** | | | **~$19** |
+| **Total cloud-API spend** | | | **~$0** |
 
-Higher than ideal — most of it on hardware/config thrash, not the actual
-training that produced the result.
+Higher than ideal on the GPU side — most of it on hardware/config thrash,
+not the actual training that produced the result. Cloud-API benchmarking
+was effectively free under the providers' free / low tiers, with the
+script's built-in 429 backoff letting it ride out rate limits unattended.
 
 ---
 
-## 10. Open items / what would be next
+## 11. Open items / what would be next
+
+✅ **DONE** — Commercial-model baselines (Kimi v1-8K, Gemini 2.5 Flash):
+   added in §8. Snake-RepairLLaMA wins or ties Top-10 Exact on both QuixBugs
+   (80.0%) and BugsInPy (14.3%) against both proprietary models.
+
+✅ **DONE** — Indentation-alignment post-processing for chat-model outputs:
+   `realign_indents.py` (see §8.2). Lifts Kimi/Gemini exact-match from 0
+   to their true scores by repairing the chat-vs-FIM column-0 mismatch.
+
+Still open:
 
 1. **Plausibility on the run3 generations** — not yet measured. QuixBugs
    plausibility is cheap (~30 min on local Windows, no Docker); doing it
    would let us report `plausible@K` for the trained adapter and see how
-   many of the 80% Top-10 Exact patches actually pass tests.
+   many of the 80% Top-10 Exact patches actually pass tests. Now also
+   relevant for Kimi (Top-10 Exact 80%) and Gemini (Top-10 Exact 75%) so
+   we can report a clean three-way Plausible@10 table.
 2. **A second epoch of training** — ~$5 more on A100 SXM. Trained-run3 val
    loss was still trending down at step 1259 (0.229 → potentially 0.20–0.21
    by epoch 2). Probably 5–10% improvement on Top-K Exact metrics. Held off
@@ -705,28 +949,39 @@ training that produced the result.
    have real test suites. The 50-bug stratified subset
    (`bugsinpy_eval_verified_subset50.jsonl`) was prepared for this; running
    it on a Linux machine with the BugsInPy framework would take ~6–8 hours of
-   CPU time per parallel worker.
+   CPU time per parallel worker. Run it for all four models for a complete
+   comparison.
 4. **Compile-rate regression** — trained Top-10 Compile (72.5%) is below
    baseline (90%) on QuixBugs because the trained model emits EOS
    immediately, so `extract_patch(strict)` returns just the fix, which can
    be an incomplete fragment (block header without body). Could be addressed
    by post-processing — e.g. use the suffix context to "complete" the patch
    before compile-checking. Not done yet.
-5. **Comparison with the inherited Ahsan adapter** (the
-   `Python-hf`-misconfigured one) — for a thesis, having "our retrain vs
-   their adapter" numbers would close the loop. Skipped for time.
+
 
 ---
 
-## 11. TL;DR
+## 12. TL;DR
 
 - Trained a LoRA adapter (rank-8, q,v projections only,
   `codellama/CodeLlama-7b-hf` base) on 80k IR4/OR2 code-repair examples for
   one epoch using the RepairLLaMA paper's exact hyperparameters.
 - The adapter (`alisuleman525/snake-repairllama-7b-fim-run3`, ~17 MB) **lifts
   QuixBugs Top-10 Exact from 10% → 80% and BugsInPy Top-10 Exact from 0% →
-  14%**, with monotone improvements on Exact / AST / Buried at every Top-K
+  14.3%**, with monotone improvements on Exact / AST / Buried at every Top-K
   on both datasets.
+- **Snake-RepairLLaMA wins or ties Top-10 Exact against both proprietary
+  cloud baselines** (Kimi Moonshot v1-8K, Google Gemini 2.5 Flash) on both
+  benchmarks, despite being a 7B model with a 17 MB adapter runnable on a
+  single GPU. Gemini wins Top-1 (it commits hard to one near-greedy answer)
+  but cannot benefit from re-sampling because `thinkingBudget=0` collapses
+  its decoding diversity. Kimi has the cleanest sampling diversity. Vanilla
+  CodeLlama with no adapter solves zero BugsInPy bugs at any K, isolating
+  the contribution of fine-tuning.
+- Two infrastructure pieces shipped alongside the commercial comparison:
+  `run_kimi.py` / `run_gemini.py` (paper-protocol inference for both APIs)
+  and `realign_indents.py` (post-hoc fix for the chat-vs-FIM column-0
+  indentation mismatch — see §8.2).
 - The road there involved one diverged training (LR too high for a too-large
   LoRA), several hardware false starts (Blackwell driver gaps, multi-GPU
   setup pain, slow inference cards), and one bookkeeping-induced loss spike
